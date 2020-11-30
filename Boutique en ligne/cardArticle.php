@@ -2,7 +2,7 @@
 require_once("modeles/Article.php");
 require_once("modeles/Panier.php");
 
-$Resultat = new Article();
+$Article = new Article();
 $Panier = new Panier();
 
 /* pagination */ 
@@ -14,9 +14,9 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 
 // Nombre d'articles à afficher
 if (isset($_GET["idcat"])) {
-  $nbArticle = (int) $Resultat->compterArticle($_GET["idcat"]);
+  $nbArticle = (int) $Article->compterArticle($_GET["idcat"]);
 }else{
-  $nbArticle = (int) $Resultat->compterArticle();
+  $nbArticle = (int) $Article->compterArticle();
 }
 
 // On détermine le nombre d'articles par page
@@ -30,11 +30,11 @@ $premier = ($currentPage * $parPage) - $parPage;
 
 
 if (isset($_GET["idcat"])) {
-  $resultat = $Resultat->rechecheParCategorie($_GET["idcat"], $premier, $parPage);
-  $nbArticle = (int) $Resultat->compterArticle($_GET["idcat"]);
+  $listeArticles = $Article->rechecheParCategorie($_GET["idcat"], $premier, $parPage);
+  $nbArticle = (int) $Article->compterArticle($_GET["idcat"]);
 }else{
-  $resultat = $Resultat->recupererArticles($premier, $parPage);
-  $nbArticle = (int) $Resultat->compterArticle();
+  $listeArticles = $Article->recupererArticles($premier, $parPage);
+  $nbArticle = (int) $Article->compterArticle();
 }
 
 if($_SESSION){
@@ -46,8 +46,8 @@ if($_SESSION){
 <body>
     <div class="container">
       <div class="row">
-        <?php foreach ($resultat as $article) {
-          if ($Panier->articleInPanier($article['idArticle'], $idClient) and $_SESSION){
+        <?php foreach ($listeArticles as $article) {
+        if ($Panier->articleInPanier($article['idArticle'], $idClient) and $_SESSION){
            
           }else{ ?>        
             <div class="col-md-6">

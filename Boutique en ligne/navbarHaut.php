@@ -1,7 +1,7 @@
 <?php
 require_once("modeles/Categorie.php");
-$ResultatCat = new Categorie();
-$resultatCat = $ResultatCat->recupererCategories();
+$Categorie = new Categorie();
+$resultatCat = $Categorie->recupererCategories();
  ?>
 <!DOCTYPE html>
 <html>

@@ -7,14 +7,19 @@ abstract class Modele
     {
         if (self::$bdd === NULL)
         {
-            self::$bdd = new PDO("mysql:host=127.0.0.1;dbname=boutique;charset=UTF8", "root", "");
+            try{
+                self::$bdd = new PDO("mysql:host=127.0.0.1:3307;dbname=boutique;charset=UTF8", "root", "");
+                self::$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            }catch(PDOException $e){
+                echo "Message d'erreur : ".$e->getMessage();
+            }
         }
         return self::$bdd;
     }
 
-    protected function execRequete(string $sql, array $param = NULL)
+    protected function execRequete(string $sql, array $param = null)
     {
-        if ($param === NULL)
+        if ($param === null)
         {
             $resultat = self::getBdd()->query($sql);
         }else{
