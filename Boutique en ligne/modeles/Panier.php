@@ -1,5 +1,5 @@
 <?php
-require_once('modeles/Modele.php');
+require_once('Modele.php');
 
 class Panier extends Modele
 {
