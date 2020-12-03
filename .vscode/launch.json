@@ -8,7 +8,7 @@
             "type": "pwa-chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "http://exercices/Boutique%20en%20ligne/index.php",
+            "url": "http://prodajha/Boutique_en_ligne/",
             "webRoot": "${workspaceFolder}"
         }
     ]
