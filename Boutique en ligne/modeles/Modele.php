@@ -8,7 +8,7 @@ abstract class Modele
         if (self::$bdd === NULL)
         {
             try{
-                self::$bdd = new PDO("mysql:host=127.0.0.1:3307;dbname=boutique;charset=UTF8", "root", "");
+                self::$bdd = new PDO("mysql:host=localhost;dbname=boutique;charset=UTF8", "root", "");
                 self::$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }catch(PDOException $e){
                 echo "Message d'erreur : ".$e->getMessage();
