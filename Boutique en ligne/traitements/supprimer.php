@@ -1,5 +1,7 @@
 <?php
-require_once('../config/bdd.php');
+require_once('../modeles/Panier.php');
+$Panier = new Panier();
+
 
 if(isset($_POST['idA']) && !empty($_POST['idA']) && isset($_POST['idC']) && !empty($_POST['idC'])){
 	$idC=$_POST['idC'];
@@ -7,11 +9,8 @@ if(isset($_POST['idA']) && !empty($_POST['idA']) && isset($_POST['idC']) && !emp
 	print_r($idA);
 	print_r($idC);
     $request = "DELETE FROM panier WHERE idClient=? AND idArticle=?";
-        $resultat = getBdd()->prepare($request);
-        $resultat->bindParam(1, $idC);
-        $resultat->bindParam(2, $idA);
         $resultat->execute();
-        $resultat = $resultat->fetch();
+        $resultat = $Panier->supprimer($idart, $idClient);
     if (isset($resultat)) { ?>
     	<p>Suppression réussie</p>
     	<a href="../panier.php">retour au panier</a><?php
