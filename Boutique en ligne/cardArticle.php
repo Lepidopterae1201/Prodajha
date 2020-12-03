@@ -20,7 +20,7 @@ if (isset($_GET["idcat"])) {
 }
 
 // On détermine le nombre d'articles par page
-$parPage = 8;
+$parPage = 2;
 
 // On calcule le nombre de pages total
 $pages = ceil($nbArticle / $parPage);
