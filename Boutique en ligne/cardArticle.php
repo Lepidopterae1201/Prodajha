@@ -20,7 +20,7 @@ if (isset($_GET["idcat"])) {
 }
 
 // On détermine le nombre d'articles par page
-$parPage = 2;
+$parPage = 8;
 
 // On calcule le nombre de pages total
 $pages = ceil($nbArticle / $parPage);
@@ -46,10 +46,7 @@ if($_SESSION){
 <body>
     <div class="container">
       <div class="row">
-        <?php foreach ($listeArticles as $article) {
-        if ($Panier->articleInPanier($article['idArticle'], $idClient) and $_SESSION){
-           
-          }else{ ?>        
+        <?php foreach ($listeArticles as $article) { ?>        
             <div class="col-md-6">
               <div class="card mb-3" style="max-width: 540px;">
                 <div class="row no-gutters">
@@ -69,9 +66,8 @@ if($_SESSION){
                       if ($Panier->verifPanier($article['idArticle'], $idClient)){
                         ?> <p style="color: green">Vous avez déjà acheté l'article</p> <?php
                       }else{
-                        if ($_SESSION == False){?>
-                          <p>Veuillez vous connecter pour ajouter au panier</p>
-                        <?php
+                        if ($_SESSION == False){
+                          echo"<p>Veuillez vous connecter pour ajouter au panier</p>";
                         }else{
                           if ($article['quantite']>0) {
                           ?>
@@ -93,7 +89,6 @@ if($_SESSION){
             </div>
           <?php
           }
-        } 
           ?>
       </div>
     </div>

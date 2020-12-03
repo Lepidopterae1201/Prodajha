@@ -2,9 +2,7 @@
 session_start();
 if($_SESSION == False) {
 	header("location:index.php");
-}else{
-require_once('config/bdd.php');
-;
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -48,4 +46,3 @@ require_once('config/bdd.php');
       </div>
   </body>
 </html>
-<?php } ?>

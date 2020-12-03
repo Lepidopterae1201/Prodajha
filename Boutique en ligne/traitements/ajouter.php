@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../modeles/Modele.php');
+require_once('../modeles/Panier.php');
 $Panier = new Panier();
 
 if(isset($_POST['idart']) && !empty($_POST['idart']) && isset($_POST['qart']) && !empty($_POST['qart'])){

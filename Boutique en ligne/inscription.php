@@ -1,5 +1,5 @@
 <?php
-require_once("modeles/Utilisateurs.php");
+require_once("modeles/Messages.php");
 $Message = new Message();
 ?>
 <html>

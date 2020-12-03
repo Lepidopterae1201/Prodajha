@@ -29,13 +29,13 @@ class Panier extends Modele
     }
 
     function ajoutPanier($idC, $idArt, $qArt){
-        $request = "INSERT INTO panier VALUES (?, ?, ?) ";
-        return $this->execRequete($request, [$idC, $idArt, $qArt])->fetch();
+        $request = "INSERT INTO panier (idClient, idArticle, quantite) VALUES (?, ?, ?) ";
+        return $this->execRequete($request, [$idC, $idArt, $qArt]);
     }
 
     function modifPanier($idart, $idClient, $quant){
         $request = "UPDATE panier SET quantite=? WHERE idClient=? AND idArticle=?";
-        return $this->execRequete($request, [$idart, $idClient, $quant])->fetch();
+        return $this->execRequete($request, [$idart, $idClient, $quant]);
     }
 
     function suprPanier($idClient, $idart){
