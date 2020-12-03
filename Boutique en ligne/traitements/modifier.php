@@ -11,7 +11,7 @@ if(isset($_POST['idA']) && !empty($_POST['idA']) && isset($_POST['idC']) && !emp
 	print_r($idC);
     $request = "UPDATE panier SET quantite=? WHERE idClient=? AND idArticle=?";
         $resultat->execute();
-        $resultat = $Panier->modifier($idart, $idClient, $quant);
+        $resultat = $Panier->modifPanier($idart, $idClient, $quant);
     if (isset($resultat)) { ?>
     	<p>modification réussie</p>
     	<a href="../panier.php">retour au panier</a><?php
