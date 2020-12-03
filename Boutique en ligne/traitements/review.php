@@ -1,5 +1,5 @@
 <?php
-require_once('../config/bdd.php');
+require_once('../modeles/Reviews.php');
 
 if(isset($_POST['review']) && !empty($_POST['review']) && isset($_POST['pseudo']) && !empty($_POST['pseudo']) && isset($_POST['idArticle']) && !empty($_POST['idArticle'])){
     $review = $_POST['review'];

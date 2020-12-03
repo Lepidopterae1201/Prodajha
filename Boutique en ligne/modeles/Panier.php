@@ -27,5 +27,14 @@ class Panier extends Modele
             return False;
         }	
     }
+
+    function modifPanier($idart, $idClient, $quant){
+        $request = "UPDATE panier SET quantite=? WHERE idClient=? AND idArticle=?";
+        return$this->execRequete($requete, [$idart, $idClient, $quant])->fetch();
+    }
+
+    function suprPanier($idClient, $idart){
+        $request = "DELETE FROM panier WHERE idClient=? AND idArticle=?";
+        return $this->execRequete($requete, [$idart, $idClient])->fetch();
 }
 ?>
