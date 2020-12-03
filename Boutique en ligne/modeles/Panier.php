@@ -28,13 +28,19 @@ class Panier extends Modele
         }	
     }
 
+    function ajoutPanier($idC, $idArt, $qArt){
+        $request = "INSERT INTO panier VALUES (?, ?, ?) ";
+        return $this->execRequete($request, [$idC, $idArt, $qArt])->fetch();
+    }
+
     function modifPanier($idart, $idClient, $quant){
         $request = "UPDATE panier SET quantite=? WHERE idClient=? AND idArticle=?";
-        return$this->execRequete($requete, [$idart, $idClient, $quant])->fetch();
+        return $this->execRequete($request, [$idart, $idClient, $quant])->fetch();
     }
 
     function suprPanier($idClient, $idart){
         $request = "DELETE FROM panier WHERE idClient=? AND idArticle=?";
-        return $this->execRequete($requete, [$idart, $idClient])->fetch();
+        return $this->execRequete($request, [$idart, $idClient])->fetch();
+    }
 }
 ?>
