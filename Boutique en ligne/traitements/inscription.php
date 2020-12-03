@@ -1,5 +1,6 @@
 <?php
-require_once('..\config\bdd.php');
+require_once('../modeles/Utilisateurs.php');
+$Utilisateurs = new Utilisateurs();
 
 if(isset($_POST['mail']) && !empty($_POST['mail']) &&
     isset($_POST['password']) && !empty($_POST['password']) && 
@@ -23,10 +24,7 @@ if(isset($_POST['mail']) && !empty($_POST['mail']) &&
             }else{
                 
                 $req = "SELECT email FROM client WHERE email = ?";
-                $resultat = getBdd()->prepare($req);
-                $resultat->bindParam(1, $mail);
-                $resultat->execute();
-                $resultat = $resultat->fetchAll();
+                $resultat = $Utilisateurs->userExist($mail);
 
                 if(sizeof($resultat) > 0){
                     ?>
@@ -36,14 +34,7 @@ if(isset($_POST['mail']) && !empty($_POST['mail']) &&
                     header('location:../inscription.php?message=erreur2');
                 }else{
                     $password = password_hash($password, PASSWORD_BCRYPT);
-                    $req = "INSERT INTO client(nom, prenom, email, password)
-                            VALUES(?, ?, ?, ?)";
-                    $resultat = getBdd()->prepare($req);
-                    $resultat->bindParam(1, $nom);
-                    $resultat->bindParam(2, $prenom);
-                    $resultat->bindParam(3, $mail);
-                    $resultat->bindParam(4, $password);
-                    $resultat->execute();
+                    $Utilisateurs->inscription($nom, $prenom, $mail, $password);
                     
                     header('location:../connexion.php?message=succes');
                 }

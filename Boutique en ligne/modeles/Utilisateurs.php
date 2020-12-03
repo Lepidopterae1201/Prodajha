@@ -1,28 +1,21 @@
 <?php 
-require_once('config/bdd.php');
+require_once('Modele.php');
 
-class Message
+class Utilisateurs extends Modele
 {
-    function messageInscription(){
-        if ($_GET['message']=='erreur1') {
-            return "<p style='color: red;'>Les mots de passes ne correspondent pas</p>";
-        }elseif ($_GET['message']=='erreur2') {
-            return "<p style='color: red;'>L'utilisateur existe déjà</p>";
-        }elseif ($_GET['message']=='erreur3') {
-            return "<p style='color: red;'>Veuillez saisir une adresse mail valide</p>";
-        }elseif ($_GET['message']=='erreur4') {
-            return "<p style='color: red;'>Il manque un ou plusieurs champs</p>";
-        }
+    function connexion($mail){
+        $req = "SELECT email, password, nom, prenom, idClient FROM client WHERE email = ?";
+        return $this->execRequete($req, [$mail])->fetch();
     }
 
-    function messageConnexion(){
-        if ($_GET['message'] == 'erreur1') {
-            echo "<p style='color: red;'>L'utilisateur ou le mot de passe est incorrect</p>";
-        } elseif ($_GET['message'] == 'erreur2') {
-            echo "<p style='color: red;'>Il manque un ou plusieurs champs</p>";
-        } elseif ($_GET['message'] == 'succes') {
-            echo "<p style='color: green;'>Compte créé avec succès</p>";
-        }
+    function userExist($mail){
+        $req = "SELECT email FROM client WHERE email = ?";
+        return $this->execRequete($req, [$mail])->fetchAll();
+    }
+
+    function inscription($nom, $prenom, $mail, $password){
+        $req = "INSERT INTO client(nom, prenom, email, password) VALUES(?, ?, ?, ?)";
+        return $this->execRequete($req, [$nom, $prenom, $mail, $password])->fetchAll();
     }
 }
 ?>
