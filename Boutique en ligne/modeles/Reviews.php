@@ -8,7 +8,7 @@ class Review extends Modele{
         return $this->execRequete($sql, [$idart])->fetchAll();
     }
 
-    function affichCommentaires($review, $pseudo, $idart){
+    function ajoutCommentaires($review, $pseudo, $idart){
         $sql = "INSERT INTO review (contenu, pseudo, dateReview, idArticle) VALUES(?, ?, NOW(),?)";
         return $this->execRequete($sql, [$review, $pseudo, $idart]);
     }

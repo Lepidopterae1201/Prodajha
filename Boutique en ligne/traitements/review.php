@@ -1,5 +1,6 @@
 <?php
 require_once('../modeles/Reviews.php');
+$Review = new Review;
 
 if(isset($_POST['review']) && !empty($_POST['review']) && isset($_POST['pseudo']) && !empty($_POST['pseudo']) && isset($_POST['idArticle']) && !empty($_POST['idArticle'])){
     $review = $_POST['review'];
@@ -10,11 +11,8 @@ if(isset($_POST['review']) && !empty($_POST['review']) && isset($_POST['pseudo']
     echo "<p>idArticle=".$idArticle."</p>";
 
     $sql = "INSERT INTO review (contenu, pseudo, dateReview, idArticle) VALUES(?, ?, NOW(),?)";
-    $requete = getBdd()->prepare($sql);
-    $requete->bindParam(1, $review);
-    $requete->bindParam(2, $pseudo);
-    $requete->bindParam(3, $idArticle);
-    $requete->execute();
+    $Review->ajoutCommentaires($review, $pseudo, $idArticle);
+
     echo "<a href = ../article.php?idart=".$idArticle;
     header("location:../article.php?idart=".$idArticle);
 
