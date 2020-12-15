@@ -2,13 +2,23 @@
 session_start();
 require_once('modeles/Article.php');
 require_once('modeles/Reviews.php');
+require_once('modeles/Panier.php');
 
 date_default_timezone_set('Europe/Paris');
+
+$Panier = new Panier();
 
 $Article = new Article();
 $art = $Article->afficherArticle($_GET['idart']);
 $Review =  new Review();
 $rev = $Review->recupCommentaires($_GET['idart']);
+
+if($_SESSION){
+  $idClient = $_SESSION['idClient'];
+}else{
+  $idClient = False;
+};
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -48,6 +58,8 @@ $rev = $Review->recupCommentaires($_GET['idart']);
               if ($_SESSION) {
                 if ($art['quantite']<=0) {
               ?>  <p style="color: red">L'article est épuisé</p>  <?php
+                }elseif ($Panier->verifPanier($_GET['idart'], $idClient)){
+                  ?> <p style="color: green">Vous avez déjà acheté l'article</p> <?php
                 }else{
                 ?><form method="POST" action="traitements/ajouter.php">
                   <input type="text" hidden="True" name="idart" value=<?php echo($art['idArticle']);?>>

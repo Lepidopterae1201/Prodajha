@@ -10,8 +10,7 @@ if(isset($_POST['review']) && !empty($_POST['review']) && isset($_POST['pseudo']
     echo "<p>pseudo=".$pseudo."</p>";
     echo "<p>idArticle=".$idArticle."</p>";
 
-    $sql = "INSERT INTO review (contenu, pseudo, dateReview, idArticle) VALUES(?, ?, NOW(),?)";
-    $Review->ajoutCommentaires($review, $pseudo, $idArticle);
+    $Review->ajoutCommentaire($review, $pseudo, $idArticle);
 
     echo "<a href = ../article.php?idart=".$idArticle;
     header("location:../article.php?idart=".$idArticle);
