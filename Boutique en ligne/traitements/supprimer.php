@@ -9,8 +9,7 @@ if(isset($_POST['idA']) && !empty($_POST['idA']) && isset($_POST['idC']) && !emp
 	print_r($idA);
 	print_r($idC);
     $request = "DELETE FROM panier WHERE idClient=? AND idArticle=?";
-        $resultat->execute();
-        $resultat = $Panier->suprPanier($idart, $idClient);
+        $resultat = $Panier->suprPanier($idC, $idA);
     if (isset($resultat)) { ?>
     	<p>Suppression réussie</p>
     	<a href="../panier.php">retour au panier</a><?php
