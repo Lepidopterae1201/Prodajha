@@ -137,14 +137,14 @@ if($_SESSION){
 <style>
     /* unvisited link */
     a:link, a:visited{
-    color: black;
+      color: black;
     }
-        
+
     .container{
       width: 100%;
       border-radius: 20px;
     }
-    
+
     img{
       width: 50%;
       height: auto;
@@ -153,11 +153,11 @@ if($_SESSION){
 
     .form-control{
       height: 50px;
-      }
-
-    .formulaireRow{
+    }
+    
+    .formulaire.row{
       margin-top: 50px;
-      }
+    }
     
     .conversation{
       margin-top: 50px;
@@ -181,6 +181,6 @@ if($_SESSION){
       border-radius: 20px;
       width: 200px;
       margin-top: 10px;
-      }​​
+      }
     
 </style>
