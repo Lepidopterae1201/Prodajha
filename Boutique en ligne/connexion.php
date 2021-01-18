@@ -37,7 +37,8 @@ $Message = new Message();
                             <div class="col-12" style="margin-top:-10px; margin-bottom:30px;">
                                 <button type="submit" class="btn btn-outline-warning" style="width:30%; margin-right:10px; margin-left:10px; padding:10px;">CONNECTION</button>
                                 <hr>
-                                <a href="inscription.php" class="text-warning" style="width:30%; padding:10px; text-decoration:underline">Vous n'avez pas de compte ? inscrivez vous !</a>
+                                <p class="text-warning">Vous n'avez pas de compte ?</p>
+                                <a href="inscription.php" class="text-warning" style="width:30%; padding:10px; text-decoration:underline">Inscrivez vous !</a>
                             </div>
                         </div>
                     </form>

@@ -43,7 +43,7 @@ $Message = new Message();
                             <div class="col-12" style="margin-bottom: 15px;">
                                 <button type="submit" class="btn btn-outline-warning" style="width:30%; margin-bottom:30px; padding:10px;">INSCRIPTION</button>
                                 <p class="text-warning">Déjà un compte ? </p>
-                                <a href="connexion.php" class="text-warning" style="text-decoration:underline">Inscrivez vous !</a>
+                                <a href="connexion.php" class="text-warning" style="text-decoration:underline">Connectez vous !</a>
                             </div>
                         </div>
                     </form>
