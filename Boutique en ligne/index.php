@@ -42,8 +42,8 @@ session_start();
             <li class="page-item <?= ($currentPage == $pages) ? "disabled" : "" ?>">
             <a href="./?page=<?= $currentPage + 1 ?>" class="page-link">Suivante</a>
         </li>
-    </ul>
-</nav>
+      </ul>
+    </nav>
   </body>
   <style>
 
