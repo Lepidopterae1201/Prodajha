@@ -12,30 +12,24 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
   $currentPage = 1;
 }
 
-// Nombre d'articles à afficher
-if (isset($_GET["idcat"])) {
-  $nbArticle = (int) $Article->compterArticle($_GET["idcat"]);
-}else{
-  $nbArticle = (int) $Article->compterArticle();
-}
-
 // On détermine le nombre d'articles par page
-$parPage = 8;
-
-// On calcule le nombre de pages total
-$pages = ceil($nbArticle / $parPage);
+$parPage = 4;
 
 //premier article afficher
 $premier = ($currentPage * $parPage) - $parPage;
 
-
 if (isset($_GET["idcat"])) {
   $listeArticles = $Article->rechecheParCategorie($_GET["idcat"], $premier, $parPage);
-  $nbArticle = (int) $Article->compterArticle($_GET["idcat"]);
+  $nbArticle = (int) $Article->compterArticle($_GET["idcat"])["nb_articles"];
 }else{
   $listeArticles = $Article->recupererArticles($premier, $parPage);
-  $nbArticle = (int) $Article->compterArticle();
+  $nbArticle = (int) $Article->compterArticle()["nb_articles"];
+
 }
+
+// On calcule le nombre de pages total
+$pages = ceil($nbArticle / $parPage);
+
 
 if($_SESSION){
   $idClient = $_SESSION['idClient'];

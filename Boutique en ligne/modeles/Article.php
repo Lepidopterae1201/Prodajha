@@ -21,10 +21,10 @@ class Article extends Modele
 
 	function compterArticle($idcat = NULL){
 		if ($idcat === NULL){
-			$requete = "SELECT COUNT(*) FROM article;";
+			$requete = "SELECT COUNT(idArticle) AS nb_articles FROM article;";
 			return $this->execRequete($requete)->fetch();
 		}else{
-			$requete = "SELECT COUNT(*) AS nb_articles FROM article WHERE IdCategorie = ?;";
+			$requete = "SELECT COUNT(idArticle) AS nb_articles FROM article WHERE IdCategorie = ?;";
 			return $this->execRequete($requete, [$idcat])->fetch();
 		}
 	}
