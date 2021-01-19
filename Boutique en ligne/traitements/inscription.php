@@ -6,10 +6,12 @@ if(isset($_POST['mail']) && !empty($_POST['mail']) &&
     isset($_POST['password']) && !empty($_POST['password']) && 
     isset($_POST['passwordVerif']) && !empty($_POST['passwordVerif']) &&
     isset($_POST['nom']) && !empty($_POST['nom']) &&
-    isset($_POST['prenom']) && !empty($_POST['prenom'])){
+    isset($_POST['prenom']) && !empty($_POST['prenom']) &&
+    isset($_POST['dateNaissance']) && !empty($_POST['dateNaissance'])){
         
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
+    $dateNaissance = $_POST['dateNaissance'];
     $mail = strtolower($_POST['mail']);
     $password = $_POST['password'];
     $passwordVerify = $_POST['passwordVerif'];
@@ -34,7 +36,7 @@ if(isset($_POST['mail']) && !empty($_POST['mail']) &&
                     header('location:../inscription.php?message=erreur2');
                 }else{
                     $password = password_hash($password, PASSWORD_BCRYPT);
-                    $Utilisateurs->inscription($nom, $prenom, $mail, $password);
+                    $Utilisateurs->inscription($nom, $prenom, $dateNaissance, $mail, $password);
                     
                     header('location:../connexion.php?message=succes');
                 }

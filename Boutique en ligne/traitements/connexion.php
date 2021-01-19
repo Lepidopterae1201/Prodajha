@@ -17,7 +17,7 @@ if(isset($_POST['mail']) && !empty($_POST['mail']) && isset($_POST['password']) 
         header("location:../connexion.php?message=erreur1");
     }else{
         $passVerif = $resultat['password'];
-        if (password_verify ( $password , $passVerif )) {
+        if (password_verify($password, $passVerif)) {
             session_start();
             $_SESSION['prenom'] = $resultat['prenom'];
             $_SESSION['nom'] = $resultat['nom'];

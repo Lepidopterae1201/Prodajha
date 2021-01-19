@@ -9,10 +9,10 @@ $Message = new Message();
         <link rel="stylesheet" href="Bootstrap\bootstrap.min.css">
         <script src="Bootstrap\bootstrap.min.js"></script>
     </head>
-    <body style="display:flex; text-align:center">
-        <div class="container" style="margin-top:3%; margin-bottom:auto">
+    <body style="display:flex; text-align:center; background-color:rgb(84, 84, 84)">
+        <div class="container" style="margin-top:2%; margin-bottom:auto;">
             <div class="row justify-content-center">
-                <div class="col-sm-10 col-md-7" style="background-color:rgb(44, 44, 44); height: 100%; border-radius: 25px; padding:30px;">
+                <div class="col-sm-10 col-md-7 border border-warning" id ="formContainer">
                     <form autocomplete="off" method="POST" action="traitements/inscription.php">
                         <div class="row">
                             <div class="col-sm-12 text-center">
@@ -30,6 +30,9 @@ $Message = new Message();
                                 <input type="text" name="prenom" class="form-control" placeholder="Prénom" required autofocus/>
                             </div>
                             <div class="col-12" style="margin-bottom: 15px;">
+                                <input type="date" name="dateNaissance" class="form-control" placeholder="Date de naissance" required autofocus/>
+                            </div>
+                            <div class="col-12" style="margin-bottom: 15px;">
                                 <input type="text" name="mail" class="form-control" placeholder="Adresse Mail" required autofocus/>
                             </div>
                             <div class="col-12" style="margin-bottom: 15px;">
@@ -40,7 +43,7 @@ $Message = new Message();
                             </div>
                         </div>
                         <div class="row formulaireRow">
-                            <div class="col-12" style="margin-bottom: 15px;">
+                            <div class="col-12">
                                 <button type="submit" class="btn btn-outline-warning" style="width:30%; margin-bottom:30px; padding:10px;">INSCRIPTION</button>
                                 <p class="text-warning">Déjà un compte ? </p>
                                 <a href="connexion.php" class="text-warning" style="text-decoration:underline">Connectez vous !</a>
@@ -64,6 +67,13 @@ $Message = new Message();
 
         .formulaireRow{
             margin-top: 50px;
+        }
+
+        #formContainer{
+            background-color:rgb(44, 44, 44);
+            height: 100%;
+            border-radius:25px;
+            padding:30px;
         }
     </style>
 </html>

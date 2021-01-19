@@ -13,9 +13,9 @@ class Utilisateurs extends Modele
         return $this->execRequete($req, [$mail])->fetchAll();
     }
 
-    function inscription($nom, $prenom, $mail, $password){
-        $req = "INSERT INTO client(nom, prenom, email, password) VALUES(?, ?, ?, ?)";
-        return $this->execRequete($req, [$nom, $prenom, $mail, $password]);
+    function inscription($nom, $prenom, $dateNaissance, $mail, $password){
+        $req = "INSERT INTO client(nom, prenom, dateNaissance, email, password) VALUES(?, ?, ?, ?, ?)";
+        return $this->execRequete($req, [$nom, $prenom, $dateNaissance, $mail, $password]);
     }
 }
 ?>
