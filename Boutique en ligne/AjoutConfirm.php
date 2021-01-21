@@ -23,21 +23,25 @@ if($_SESSION == False) {
   <body>
       <div style="height: 90vh;" class="d-flex justify-content-center align-items-center">
         <div class="card">
-          <div class="card-header">
-            <p style="text-align: center;">Article ajouter au panier !</p>
+          <div class="card-header" style="background-color: rgb(40,40,40);">
+            <h4 style="text-align: center; color: whitesmoke;">Article ajouter au panier !</h4>
           </div>
-          <div class="card-body">
+          <div class="card-body"style="background-color: rgb(84,84,84);" >
             <div class="container">
               <div class="row justify-content-center">
-                <p>Votre article à été ajouté à votre panier avec succès</p>
+                <h6 style="color: whitesmoke;">Votre article à été ajouté à votre panier avec succès</h6>
               </div>
-              <div class="row justify-content-center">
-                <div class="col-xs-12 col-md-5">
-                  <a class="btn btn-warning mr-auto" href='panier.php'>Aller au panier</a>                
+              <br>
+              <div class="container">
+                <div class="row">
+                  <div class="mx-auto" style="text-align:center; margin-bottom:10px">
+                    <a class="btn btn-warning" style="width: 200px;" href='panier.php'>Aller au panier</a>                
+                  </div>
                 </div>
-                <div class="col-xl-2"></div>
-                <div class="col-xs-12 col-md-5">
-                  <a class="btn btn-warning ml-auto" href='index.php'>Continuer vos achats</a>               
+                <div class="row">
+                  <div class="mx-auto" style="text-align:center; margin-bottom:10px">
+                    <a class="btn btn-warning" style="width: 200px;" href='index.php'>Continuer vos achats</a>               
+                  </div>
                 </div>
               </div>
             </div>

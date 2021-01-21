@@ -10,6 +10,9 @@ $Panier = new Panier();
 
 $Article = new Article();
 $art = $Article->afficherArticle($_GET['idart']);
+$magasin = $Article->recupVendeur($_GET['idart']);
+
+
 $Review =  new Review();
 $rev = $Review->recupCommentaires($_GET['idart']);
 
@@ -52,6 +55,7 @@ if($_SESSION){
             <div class="card-body">
               <h3 class="card-title"><?php echo $art['nom']; ?></h3>
               <h4> <?php echo $art['prix'];?> € </h4>
+              <h5>Vendeurs : <?php echo $magasin['nom']; ?></h5>
               <p class="card-text"><?php echo $art['description'];?></p>
               <br>
               <?php
@@ -80,25 +84,11 @@ if($_SESSION){
               Product Reviews
             </div>
             <div class="card-body">
-              <div class="conversation">
-                  <?php
-                      $i = 0; 
-                      foreach($rev as $review){
-                          $i++;
-                          $date = new DateTime($review['dateReview']);
-                          $dateReview = $date->format('d/m/Y');
-                          ?>
-                          <div class="reviewAutre" >
-                              <b><?= $review['pseudo']; ?></b>
-                              <small><?= $dateReview; ?></small><br/><br/>
-                              <?= $review['contenu']; ?><hr/>
-                          </div>
-                          <?php
-                      }
-                  ?>
-              </div>
-              <hr>
-              <div class="message" id="message">
+
+              <!--Espace de saisie de commentaire-->
+
+              <?php if($_SESSION){?>
+                <div class="message" id="message">
                   <form method="POST" action="traitements\review.php">
                     <?php
                       if (isset($_GET['message'])) {
@@ -119,17 +109,39 @@ if($_SESSION){
                               }else{
                                 echo'<input type="text" name="pseudo" class="form-control" placeholder="Nom d\'utilisateur..."/>';
                               }
-                              ?>
-                              <br/>
-                              <button type="submit" class="btn btn-primary" style="width:100%">ENVOYER LE MESSAGE</button>
-                          </div>
-                      </div>
+                            ?>
+                            <br/>
+                            <button type="submit" class="btn btn-primary" style="width:100%">ENVOYER LE MESSAGE</button>
+                        </div>
+                    </div>
                   </form>
+                </div>
+                <?php }else{ ?>
+                  <h4>Veuillez vous connecter pour envoyer un commentaire</h4>
+                  <a class="btn btn-secondary" href="connexion.php?page=Article&idart=<?php echo($_GET['idart'])?>">Se connecter</a>
+                <?php } ?>
+                <hr/>
+
+              <!--espace commentaire-->
+
+              <div class="conversation">
+                <?php
+                  $i = 0; 
+                    foreach($rev as $review){
+                      $i++;
+                      $date = new DateTime($review['dateReview']);
+                      $dateReview = $date->format('d/m/Y');?>
+                      <div class="reviewAutre" >
+                        <b><?= $review['pseudo']; ?></b>
+                        <small><?= $dateReview; ?></small><br/><br/>
+                        <?= $review['contenu']; ?><hr/>
+                      </div>
+                  <?php } ?>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
     <!--container-->
     </div>
   </body>  

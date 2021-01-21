@@ -28,5 +28,10 @@ class Article extends Modele
 			return $this->execRequete($requete, [$idcat])->fetch();
 		}
 	}
+
+	function recupVendeur($idart){
+		$requete = "SELECT magasin.nom FROM magasin INNER JOIN article ON magasin.idMagasin = article.idMagasin WHERE article.idArticle = ?;";
+		return $this->execRequete($requete, [$idart])->fetch();
+	}
 }
 ?>

@@ -101,8 +101,7 @@ $disabled = 0;
 		        							<input type="text" hidden="True" name="idA" value=<?php echo($article['idArticle']);?>>
 		        							<input type="text" hidden="True" name="idC" value=<?php echo($article['idClient']);?>>
 			        						<?php echo "<input type='number' name='qart' min=1 max=".$article['aQuantite']." value=" . $article['pQuantite'] .">";?>
-			        						<br/>
-								            <button type="submit">modifier</button>
+								            <button class="btn btn-outline-secondary btn-sm" type="submit" style="margin-top: 10px;">modifier</button>
 							            </form>
 		        					</div>
 		        					<div class="col-2">
@@ -116,7 +115,7 @@ $disabled = 0;
 	        	<?php } } ?>
 	        	</div>
 	    	</div>
-	    	<div class="col-md-4">
+	    	<div class="col-md-3">
 		    	<div class="card mt-2">
 		    		<div class="card-body">
 		    				<div class="row">
