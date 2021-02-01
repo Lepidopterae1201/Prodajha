@@ -1,7 +1,7 @@
 <?php
 abstract class Modele
 {
-    static $bdd;
+    private static $bdd;
 
     private static function getBdd()
     {
