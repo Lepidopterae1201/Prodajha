@@ -1,8 +1,3 @@
-<!--popup-->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AjoutTrue">
-  Launch demo modal
-</button>
-
 <div class="modal fade" id="AjoutTrue" tabindex="-1" role="dialog" aria-labelledby="AjoutTrueLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">  
     <div class="modal-content">
