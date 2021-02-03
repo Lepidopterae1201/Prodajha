@@ -65,11 +65,11 @@ if($_SESSION){
                       }else{
                         if ($article['quantite']>0) {
                         ?>
-                        <form method="POST" action="traitements\ajouter.php">
-                          <input type="text" hidden="True" name="idart" value=<?php echo($article['idArticle']); ?>>
+                        <!-- <form method="POST" action="traitements\ajouter.php">
+                          <input type="text" hidden="True" name="idart" value=<?php// echo($article['idArticle']); ?>>
                           <input type="text" hidden="True" name="qart" value=1>
                           <button class="btn btn-warning" type="submit">ajouter au panier</button>
-                        </form> 
+                        </form>  -->
                         <?php
                         }else{
                         ?> <p style="color: red">L'article est épuisé</p> <?php                   

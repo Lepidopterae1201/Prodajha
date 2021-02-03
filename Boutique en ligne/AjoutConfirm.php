@@ -13,12 +13,12 @@
         <div class="container">
           <div class="row">
             <div class="mx-auto" style="text-align:center; margin-bottom:10px">
-              <a class="btn btn-warning" style="width: 200px;" href='panier.php'>Aller au panier</a>                
+              <a class="btn btn-warning" style="width: 200px;" href='index.php'>Continuer vos achats</a>               
             </div>
           </div>
           <div class="row">
             <div class="mx-auto" style="text-align:center; margin-bottom:10px">
-              <a class="btn btn-warning" style="width: 200px;" href='index.php'>Continuer vos achats</a>               
+              <a class="btn btn-warning" style="width: 200px;" href='panier.php'>Aller au panier</a>                
             </div>
           </div>
         </div>

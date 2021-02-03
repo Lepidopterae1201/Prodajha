@@ -19,7 +19,7 @@ $disabled = 0;
     <title>Panier</title>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
 </head>
   <body>
     <header>
@@ -142,7 +142,10 @@ $disabled = 0;
 </style>
 
 <!--js bootstrap-->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+<!--librairie jquery-->
+<script src="static/jquery-3.5.1.min.js"></script>
+
+<!--js bootstrap-->
+<script src="static/bootstrap/js/bootstrap.min.js"></script>
 
 <?php } ?>

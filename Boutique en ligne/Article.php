@@ -33,7 +33,7 @@ if($_SESSION){
     <title>Article</title>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
   </head>
   <body>
     <header>
@@ -63,12 +63,14 @@ if($_SESSION){
               ?>  <p style="color: red">L'article est épuisé</p>  <?php
                 }elseif ($Panier->verifPanier($_GET['idart'], $idClient)){
                   ?> <p style="color: green">Vous avez déjà acheté l'article</p> <?php
-                }else{
-                ?><form id="articleForm" method="POST" action="traitements/ajouter.php">
-                  <input type="text" hidden="True" name="idart" value=<?php echo($art['idArticle']);?>>
-                  <?php echo "<input type='number' name='qart' min=1 max=".$art['quantite']." value=1>";?>
-                  <button class="btn btn-warning" type="submit">Ajouter au panier</button>
-                </form><?php
+                }else{?>
+                <div id="articleForm">
+                  <form id="articleForm" method="POST" action="traitements/ajouter.php">
+                    <input type="text" hidden="True" name="idart" value=<?php echo($art['idArticle']);?>>
+                    <?php echo "<input type='number' name='qart' min=1 max=".$art['quantite']." value=1>";?>
+                    <button class="btn btn-warning" type="submit">Ajouter au panier</button>
+                  </form>
+                </div><?php
                 }
               }else{
                 ?><a class="btn btn-secondary" href="connexion.php?page=Article&idart=<?php echo($_GET['idart'])?>">Se connecter</a><?php
@@ -196,41 +198,36 @@ if($_SESSION){
     
 </style>
 
-<!--js bootstrap-->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-   
 <!--librairie jquery-->
-<script
-  src="https://code.jquery.com/jquery-3.5.1.min.js"
-  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-  crossorigin="anonymous"></script>
+<script src="static/jquery-3.5.1.min.js"></script>
 
+<!--js bootstrap-->
+<script src="static/bootstrap/js/bootstrap.min.js"></script>
+
+<!--script ajax-->
 <script>
-
-// $(document).ready(function(){
-//   $("#articleForm").submit(function(e){
-//     e.preventDefault();
-//     var idart = $('#articleForm input[name="idart"]').val();
-//     var qart = $('#articleForm input[name="qart"]').val();
-//     $.ajax({
-//       type : "POST",
-//       url : 'ajax/ajouterInPanier.php', // Le fichier cible côté serveur.,
-//       data : {
-//           qart : qart,
-//           idart : idart,
-//       },
-//       dataType:"json",
-//       success:function(data){
-//         if(data.success == true){
-//           // ouvre la popup
-//           $('#AjoutTrue').modal('show');
-//         }
-//       } ,
-//       error: function(){
-//         console.log("ERREUR");
-//       }
-//     });
-//   });
-// });
+$(document).ready(function(){
+  $("#articleForm").submit(function(e){
+    e.preventDefault();
+    var idart = $('#articleForm input[name="idart"]').val();
+    var qart = $('#articleForm input[name="qart"]').val();
+    $.ajax({
+      type : "POST",
+      url : 'ajax/ajouterInPanier.php',
+      data : {
+          qart : qart,
+          idart : idart,
+      },
+      dataType:"json",
+      success:function(data){
+        // ouvre la popup
+        $('#AjoutTrue').modal('show');
+        document.getElementById("articleForm").innerHTML = "<p style='color: green'>Vous avez déjà acheté l'article</p>";
+      } ,
+      error: function(){
+        console.log("ERREUR");
+      }
+    });
+  });
+});
 </script>
