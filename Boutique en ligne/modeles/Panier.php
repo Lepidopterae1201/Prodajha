@@ -30,7 +30,12 @@ class Panier extends Modele
 
     function ajoutPanier($idC, $idart, $qart){
         $request = "INSERT INTO panier (idClient, idArticle, quantite) VALUES (?, ?, ?) ";
-        return $this->execRequete($request, [$idC, $idart, $qart]);
+        try{
+            $this->execRequete($request, [$idC, $idart, $qart]);
+            return true;
+        }catch(Exception $e){
+            return false;
+        }
     }
 
     function modifPanier($idart, $idC, $quant){
