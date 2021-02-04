@@ -8,8 +8,7 @@ if(isset($_POST['idart']) && !empty($_POST['idart']) && isset($_POST['qart']) &&
 	$idArt=$_POST['idart'];
 	$qArt=$_POST['qart'];
     $resultat = $Panier->ajoutPanier($idC, $idArt, $qArt);
-    if (isset($resultat)) { ?>
-		<?php
+    if (isset($resultat)) {
     	echo json_encode(["succes"=>true]);
     }else{
 		echo json_encode(["succes"=>false]);
