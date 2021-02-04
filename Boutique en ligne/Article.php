@@ -21,7 +21,7 @@ if($_SESSION){
 }else{
   $idClient = False;
 };
-include('header.html');
+include('header.html')
 ?>
   <body>
     <header>
