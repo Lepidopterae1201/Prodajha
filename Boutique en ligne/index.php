@@ -1,18 +1,7 @@
 <?php  
 session_start();
+include('header.html');
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Accueil</title>
-
-    <!--Bootstrap CSS-->
-    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
-  </head>
   <body>
     <header>
       <?php

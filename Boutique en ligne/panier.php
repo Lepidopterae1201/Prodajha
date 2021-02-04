@@ -11,18 +11,7 @@ $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
 	var disabled = 0;
 	var prix = new Map;
 </script>
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Panier</title>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
-</head>
+<?php include('header.html'); ?>
   <body>
     <header>
       <?php

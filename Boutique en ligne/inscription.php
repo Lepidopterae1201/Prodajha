@@ -1,13 +1,8 @@
 <?php
 require_once("modeles/Message.php");
 $Message = new Message();
+include('header.html');
 ?>
-<html>
-    <head>
-        <title>Inscription</title>
-        <meta charset="utf8" />
-        <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
-    </head>
     <body style="display:flex; text-align:center; background-color:rgb(84, 84, 84)">
         <div class="container" style="margin-top:2%; margin-bottom:auto;">
             <div class="row justify-content-center">
