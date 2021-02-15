@@ -97,6 +97,7 @@ $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
 										if( nbr < 1){
 											nbr = 1;
 										}
+										document.write('<p><?php echo $article['prix'] * $article['pQuantite'];?>€</p>')
 										prix.set("article<?php echo $article['idArticle'];?>", <?php echo $article['prix'] * $article['pQuantite']?>);
 										console.log(prix);
 									</script>
