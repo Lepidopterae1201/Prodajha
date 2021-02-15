@@ -17,7 +17,7 @@ $resultatCat = $Categorie->recupererCategories();
 
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
 	    <a class="navbar-brand" href="index.php">
-			<img src="logo_Prodajha" style="height: 50px; width:auto; margin-left:0" class="float-left" alt="Prodajha" >
+			<img src="logo_Prodajha.png" style="height: 50px; width:auto; margin-left:0" class="float-left" alt="Prodajha" >
 		</a>
 	    <ul class="nav nav-pill" style="margin-left: 10px;">
 		    <li class="nav-item dropdown">
