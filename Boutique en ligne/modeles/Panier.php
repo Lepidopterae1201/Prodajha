@@ -12,11 +12,11 @@ class Panier extends Modele
         }
     }
     
-    function afficherPanier($idClient){
+    function afficherPanier($idC){
         $requete = "SELECT panier.idClient, article.idArticle, panier.quantite AS pQuantite,
         article.prix, article.nom, article.image, article.quantite AS aQuantite FROM panier
         INNER JOIN article ON panier.idArticle = article.idArticle WHERE idClient = ?";
-        return $this->execRequete($requete, [$idClient])->fetchAll();
+        return $this->execRequete($requete, [$idC])->fetchAll();
     }
 
     function verifPanier($idart, $idC){
@@ -28,19 +28,24 @@ class Panier extends Modele
         }	
     }
 
-    function ajoutPanier($idC, $idArt, $qArt){
+    function ajoutPanier($idC, $idart, $qart){
         $request = "INSERT INTO panier (idClient, idArticle, quantite) VALUES (?, ?, ?) ";
-        return $this->execRequete($request, [$idC, $idArt, $qArt]);
+        try{
+            $this->execRequete($request, [$idC, $idart, $qart]);
+            return true;
+        }catch(Exception $e){
+            return false;
+        }
     }
 
-    function modifPanier($idart, $idClient, $quant){
+    function modifPanier($idart, $idC, $quant){
         $request = "UPDATE panier SET quantite=? WHERE idClient=? AND idArticle=?";
-        return $this->execRequete($request, [$quant, $idClient, $idart]);
+        return $this->execRequete($request, [$quant, $idC, $idart]);
     }
 
-    function suprPanier($idClient, $idart){
+    function suprPanier($idC, $idart){
         $request = "DELETE FROM panier WHERE idClient=? AND idArticle=?";
-        return $this->execRequete($request, [$idClient, $idart]);
+        return $this->execRequete($request, [$idC, $idart]);
     }
 }
 ?>

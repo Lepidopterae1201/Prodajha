@@ -1,15 +1,8 @@
 <?php
 require_once("modeles/Message.php");
 $Message = new Message();
-
+include('header.html');
 ?>
-<html>
-    <head>
-        <title>Connection</title>
-        <meta charset="utf8" />
-        <link rel="stylesheet" href="Bootstrap\bootstrap.min.css">
-        <script src="Bootstrap\bootstrap.min.js"></script>
-    </head>
     <body style="display:flex; background-color:rgb(84, 84, 84)">
         <div class="container" style="text-align:center; margin-top:10%; margin-bottom:auto">
             <div class="row justify-content-center">
@@ -66,4 +59,11 @@ $Message = new Message();
             border-radius: 25px;
         }
     </style>
+
+    <!--librairie jquery-->
+<script src="static/jquery-3.5.1.min.js"></script>
+
+<!--js bootstrap-->
+<script src="static/bootstrap/js/bootstrap.min.js"></script>
+
 </html>

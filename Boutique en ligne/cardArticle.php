@@ -38,55 +38,55 @@ if($_SESSION){
 }
 ?>
 <body>
-    <div class="container">
-      <div class="row">
-        <?php foreach ($listeArticles as $article) { ?>        
-            <div class="col-md-6">
-              <div class="card mb-3" style="max-width: 540px;">
-                <div class="row no-gutters">
-                  <div class="col-4">
+  <div class="container">
+    <div class="row">
+      <?php foreach ($listeArticles as $article) { ?>        
+          <div class="col-md-6">
+            <div class="card mb-3" style="max-width: 540px;">
+              <div class="row no-gutters">
+                <div class="col-4">
+                  <a href="article.php?idart=<?php echo($article['idArticle']);?>">
+                  <img class="card-img" src="<?php echo($article['image']) ?>">
+                  </a>
+                </div>  
+                <div class="col-8">
+                  <div class="card-body">
                     <a href="article.php?idart=<?php echo($article['idArticle']);?>">
-                    <img class="card-img" src="<?php echo($article['image']) ?>">
+                      <h5 class="card-title"><?php echo($article['nom']) ?></h5>
+                      <p class="card-text"><?php echo($article['prix']) ?></p>
                     </a>
-                  </div>  
-                  <div class="col-8">
-                    <div class="card-body">
-                      <a href="article.php?idart=<?php echo($article['idArticle']);?>">
-                        <h5 class="card-title"><?php echo($article['nom']) ?></h5>
-                        <p class="card-text"><?php echo($article['prix']) ?></p>
-                      </a>
-                      <hr>
-                      <?php
-                      if ($Panier->verifPanier($article['idArticle'], $idClient)){
-                        ?> <p style="color: green">Vous avez déjà acheté l'article</p> <?php
+                    <hr>
+                    <?php
+                    if ($Panier->verifPanier($article['idArticle'], $idClient)){
+                      ?> <p style="color: green">Vous avez déjà acheté l'article</p> <?php
+                    }else{
+                      if ($_SESSION == False){
+                        echo"<p>Veuillez vous connecter pour ajouter au panier</p>";
                       }else{
-                        if ($_SESSION == False){
-                          echo"<p>Veuillez vous connecter pour ajouter au panier</p>";
+                        if ($article['quantite']>0) {
+                        ?>
+                        <!-- <form method="POST" action="traitements\ajouter.php">
+                          <input type="text" hidden="True" name="idart" value=<?php// echo($article['idArticle']); ?>>
+                          <input type="text" hidden="True" name="qart" value=1>
+                          <button class="btn btn-warning" type="submit">ajouter au panier</button>
+                        </form>  -->
+                        <?php
                         }else{
-                          if ($article['quantite']>0) {
-                          ?>
-                          <form method="POST" action="traitements\ajouter.php">
-                            <input type="text" hidden="True" name="idart" value=<?php echo($article['idArticle']); ?>>
-                            <input type="text" hidden="True" name="qart" value=1>
-                            <button class="btn btn-warning" type="submit">ajouter au panier</button>
-                          </form> 
-                          <?php
-                          }else{
-                          ?> <p style="color: red">L'article est épuisé</p> <?php                   
-                          } 
-                        }
-                      } ?>
-                    </div>                 
-                  </div>
+                        ?> <p style="color: red">L'article est épuisé</p> <?php                   
+                        } 
+                      }
+                    } ?>
+                  </div>                 
                 </div>
               </div>
             </div>
-          <?php
-          }
-          ?>
-      </div>
+          </div>
+        <?php
+        }
+        ?>
     </div>
-  </body>
+  </div>
+</body>
 
 <style>
   .cardImage{

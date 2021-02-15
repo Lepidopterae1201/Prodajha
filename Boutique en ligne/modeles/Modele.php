@@ -1,7 +1,7 @@
 <?php
 abstract class Modele
 {
-    static $bdd;
+    private static $bdd;
 
     private static function getBdd()
     {
@@ -11,7 +11,7 @@ abstract class Modele
                 self::$bdd = new PDO("mysql:host=localhost;dbname=boutique;charset=UTF8", "root", "");
                 self::$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }catch(PDOException $e){
-                echo "Message d'erreur : ".$e->getMessage();
+                exit;
             }
         }
         return self::$bdd;

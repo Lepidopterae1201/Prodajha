@@ -21,30 +21,17 @@ if($_SESSION){
 }else{
   $idClient = False;
 };
-
+include('header.html')
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Article</title>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="Bootstrap/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-  </head>
   <body>
     <header>
       <?php
         include('navbarHaut.php');
       ?>
     </header>
+
+    <?php include('AjoutConfirm.php')?> 
+
     <div class="container">
       <div class="row">        
         <!-- Article -->
@@ -64,12 +51,14 @@ if($_SESSION){
               ?>  <p style="color: red">L'article est épuisé</p>  <?php
                 }elseif ($Panier->verifPanier($_GET['idart'], $idClient)){
                   ?> <p style="color: green">Vous avez déjà acheté l'article</p> <?php
-                }else{
-                ?><form method="POST" action="traitements/ajouter.php">
-                  <input type="text" hidden="True" name="idart" value=<?php echo($art['idArticle']);?>>
-                  <?php echo "<input type='number' name='qart' min=1 max=".$art['quantite']." value=1>";?>
-                  <button class="btn btn-warning" type="submit">Ajouter au panier</button>
-                </form><?php
+                }else{?>
+                <div id="articleForm">
+                  <form id="articleForm" method="POST" action="traitements/ajouter.php">
+                    <input type="text" hidden="True" name="idart" value=<?php echo($art['idArticle']);?>>
+                    <?php echo "<input type='number' name='qart' min=1 max=".$art['quantite']." value=1>";?>
+                    <button class="btn btn-warning" type="submit">Ajouter au panier</button>
+                  </form>
+                </div><?php
                 }
               }else{
                 ?><a class="btn btn-secondary" href="connexion.php?page=Article&idart=<?php echo($_GET['idart'])?>">Se connecter</a><?php
@@ -196,3 +185,37 @@ if($_SESSION){
       }
     
 </style>
+
+<!--librairie jquery-->
+<script src="static/jquery-3.5.1.min.js"></script>
+
+<!--js bootstrap-->
+<script src="static/bootstrap/js/bootstrap.min.js"></script>
+
+<!--script ajax-->
+<script>
+$(document).ready(function(){
+  $("#articleForm").submit(function(e){
+    e.preventDefault();
+    var idart = $('#articleForm input[name="idart"]').val();
+    var qart = $('#articleForm input[name="qart"]').val();
+    $.ajax({
+      type : "POST",
+      url : 'ajax/ajouterInPanier.php',
+      data : {
+          qart : qart,
+          idart : idart,
+      },
+      dataType:"json",
+      success:function(data){
+        // ouvre la popup
+        $('#AjoutTrue').modal('show');
+        document.getElementById("articleForm").innerHTML = "<p style='color: green'>Vous avez déjà acheté l'article</p>";
+      } ,
+      error: function(){
+        console.log("ERREUR");
+      }
+    });
+  });
+});
+</script>
