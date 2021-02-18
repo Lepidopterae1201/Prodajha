@@ -56,7 +56,7 @@ $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
 					}else{
 					foreach ($resultat as $article) {
 	        		?>
-	        		<ul id="article<?php echo($article['idArticle'])?>" class="list-group list-group-flush deleteForm">
+	        		<ul id="article<?php echo($article['idArticle'])?>" class="list-group list-group-flush">
 	        			<li class="list-group-item">
 							<div class="row">
 								<div class="col-2">
@@ -77,29 +77,28 @@ $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
 											}
 										}
 									?>
-									<form id="delete<?php echo($article['idArticle'])?>" method="POST" action="traitement\supprimerDuPanier.php">
+									<form id="delete<?php echo($article['idArticle'])?>" class="deleteForm" method="POST" action="traitement\supprimerDuPanier.php">
 										<input id="idA_delete<?php echo($article['idArticle'])?>" type="text" hidden="True" name="idA" value=<?php echo($article['idArticle']);?>>
 										<input id="idC_delete<?php echo($article['idArticle'])?>" type="text" hidden="True" name="idC" value=<?php echo($article['idClient']);?>>
 										<button  class="btn btn-outline-secondary btn-sm" type="submit">supprimer</button>
 									</form>
 								</div>
 								<div class="col-2">
-									<form method="POST" action="traitements/modifier.php">
-										<input type="text" hidden="True" name="idA" value=<?php echo $article['idArticle'];?>>
-										<input type="text" hidden="True" name="idC" value=<?php echo $article['idClient'];?>>
-										<input id='nbrArticle<?php $article['idArticle'];?>' type='number' name='qart' min=1 max=<?php echo ($article['aQuantite'] . " value=" . $article['pQuantite'])?>>
-										<button class="btn btn-outline-secondary btn-sm" type="submit" style="margin-top: 10px;">modifier</button>
+									<form method="POST" action="traitements/modifierQuantitePanier.php">
+										<input id="idA_nbr_article<?php echo($article['idArticle'])?>" type="text" hidden="True" name="idA" value=<?php echo $article['idArticle'];?>>
+										<input id="idC_nbr_article<?php echo($article['idArticle'])?>" type="text" hidden="True" name="idC" value=<?php echo $article['idClient'];?>>
+										<input id="prix_nbr_article<?php echo($article['idArticle'])?>" type="text" hidden="True" name="prix" value=<?php echo $article['prix'];?>>
+										<input id="nbr_article<?php echo($article['idArticle'])?>" class="nbr_article_modif" type='number' name='qart' min=1 max=<?php echo ($article['aQuantite'] . " value=" . $article['pQuantite'])?>>
+										<div class="row" style="margin-top: 10px; margin-left:3px;">
+											<button id="<?php echo($article['idArticle'])?>" class="nbrArticleMoins btn btn-sm" type="button" style="margin: 3px;">-</button>
+											<button id="<?php echo($article['idArticle'])?>" class="nbrArticlePlus btn btn-sm" type="button" style="margin: 3px;">+</button>
+										</div>
 									</form>
 								</div>
-								<div class="col-2">
+								<div id="prix_article<?php echo($article['idArticle'])?>" class="col-2">
 									<script>
-									var nbr = document.getElementById('nbrArticle<?php $article['idArticle'];?>').value;
-										if( nbr < 1){
-											nbr = 1;
-										}
 										document.write('<p><?php echo $article['prix'] * $article['pQuantite'];?>€</p>')
 										prix.set("article<?php echo $article['idArticle'];?>", <?php echo $article['prix'] * $article['pQuantite']?>);
-										console.log(prix);
 									</script>
 								</div>
 							</div>
@@ -186,6 +185,48 @@ $(document).ready(function(){
 		}
 		});
 	});
+	$(".nbr_article_modif").bind('keyup mouseup', function(e){
+		var idInput = e.target.id;
+		var value = document.getElementById(idInput).value;
+		if(value <= 0){
+			console.log('value<=0');
+			$('#'+idInput).val = 1;
+		// }else if(value> document.getElementById(idInput).getAttribute('max')){
+		// 	console.log('value>max');
+		// 	$('#'+idInput).val = document.getElementById(idInput).getAttribute('max');
+		}else{
+			var idArticle = document.getElementById('idA_'+idInput).value;
+			var idClient = document.getElementById('idC_'+idInput).value;
+			var prixArticle = document.getElementById('prix_'+idInput).value;
+			$.ajax({
+				type : "POST",
+				url : 'ajax/modifierQuantitePanier.php',
+				data : {
+					idC : idClient,
+					idA : idArticle,
+					qart : value
+				},
+				dataType:"json",
+				success:function(data){
+					prix.set("article"+idArticle, value * prixArticle)
+					prixTT = calcul_PrixTT();
+					document.getElementById('prix_article'+idArticle).innerHTML = "<p>" + prix.get("article"+idArticle) + "€</p>"
+					document.getElementById('prixTT').innerHTML = "<h2>Montant Total:" + prixTT + " €</h2>";
+				},
+				error: function(){
+					console.log("ERREUR");
+				}
+			});
+		}
+	});
+	$('.nbrArticleMoins').click(function(e){
+		var idButton = e.target.id;
+		document.getElementById("nbr_article"+idButton).val = document.getElementById("nbr_article"+idButton).val -1;
+	});
+	$('.nbrArticlePlus').click(function(e){
+		var idButton = e.target.id;
+		document.getElementById("nbr_article"+idButton).val = document.getElementById("nbr_article"+idButton).val +1;
+	})
 });
 </script>
 <?php } //end "if connected"?>

@@ -33,5 +33,15 @@ class Article extends Modele
 		$requete = "SELECT magasin.nom FROM magasin INNER JOIN article ON magasin.idMagasin = article.idMagasin WHERE article.idArticle = ?;";
 		return $this->execRequete($requete, [$idart])->fetch();
 	}
+
+	function recup_max_article($idart){
+		$requete ="SELECT article.quantite FROM article WHERE article.idArticle = ?;";
+		return $this->execRequete($requete, [$idart])->fetch();
+	}
+
+	function recup_prix_article($idart){
+		$requete ="SELECT article.prix FROM article WHERE article.idArticle = ?;";
+		return $this->execRequete($requete, [$idart])->fetch();
+	}
 }
 ?>
