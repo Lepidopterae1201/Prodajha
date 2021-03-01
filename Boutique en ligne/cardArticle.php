@@ -89,12 +89,9 @@ if($_SESSION){
 </body>
 
 <style>
-  .cardImage{
-    height: 100%;
-  }
   img{
-    max-height: 300px;
-    width: auto;
+    max-width: 100%;
+    height: auto;
     vertical-align: middle;
   }
   div.card{
