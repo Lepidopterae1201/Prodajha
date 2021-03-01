@@ -96,7 +96,7 @@ $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
 										<input id="prix_nbr_article<?php echo($article['idArticle'])?>" type="text" hidden="True" name="prix" value=<?php echo $article['prix'];?>>
 										<input id="nbr_article<?php echo($article['idArticle'])?>" class="nbr_article_modif" type='number' name='qart' min=1 max=<?php echo ($article['aQuantite'] . " value=" . $article['pQuantite'])?>>
 										<div class="row" style="margin-top: 10px; margin-left:3px;">
-											<button id="<?php echo($article['idArticle'])?>" class="nbrArticleMoins btn btn-sm" type="button" style="margin: 3px;">-</button>
+											<button class="nbrArticleMoins btn btn-sm" type="button" style="margin: 3px;" onclick="article_moins(<?php echo($article['idArticle'])?>)">-</button>
 											<button id="<?php echo($article['idArticle'])?>" class="nbrArticlePlus btn btn-sm" type="button" style="margin: 3px;">+</button>
 										</div>
 									</form>
@@ -170,6 +170,15 @@ $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
 
 <!--script ajax-->
 <script>
+function article_moins(idart){
+	let nbr_article = int;
+	nbr_article = document.getElementById('nbr_article'+idart).value;
+	if (nbr_article <= 1){
+		
+	}
+
+}
+
 $(document).ready(function(){
 
 	console.log(disabled_map);
