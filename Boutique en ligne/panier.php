@@ -6,6 +6,7 @@ if($_SESSION == False) {
 require_once('modeles/Panier.php');
 $Resultat = new Panier();
 $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
+$afficher_categories = false;
 ?>
 <script>
 	let disabled_map = new Map;
@@ -21,97 +22,92 @@ $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
     <br>
     <div class="content">
 	    <div class="row">      
-	      	<div class="col-md-8">
-	        	<div class="card content">
-	        		<div class="card-header">
-	        			<div class="container">
-		        			<div class="row">
-		        				<div class="col-8">
-		        					<p class="">articles</p>
-		        				</div>
-		        				<div class="col-2">
-		        					<p class="">nombre</p>
-		        				</div>
-		        				<div class="col-2">
-		        					<p class="">prix</p>
-		        				</div>
-		        			</div>
-		        		</div> 
-	        		</div>     		
-					<?php if(empty($resultat)){ ?>
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item">
-								<div class="row">
-									<div class="col-sm-9 col-xs-12">
-									<h5 class="mr-auto">Votre panier est vide</h5>
-									</div>
-									<div class="col-sm-3 col-xs-12">
-									<a class="btn btn-warning ml-auto" href="index.php">Faire des achats</a>
-									</div>
-								</div>
-							</li>
-						</ul>
-					<script>
-						disabled_map.set("nothing", true);
-					</script>
-					<?php
-					}else{
-					foreach ($resultat as $article) {
-	        		?>
-	        		<ul id="article<?php echo($article['idArticle'])?>" class="list-group list-group-flush">
-	        			<li class="list-group-item">
+	      	<div class="col-md-8">    		
+				<?php if(empty($resultat)){ ?>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
 							<div class="row">
-								<div class="col-2">
-									<img src="<?php echo($article['image']) ?>">
+								<div class="col-sm-9 col-xs-12">
+								<h5 class="mr-auto">Votre panier est vide</h5>
 								</div>
-								<div class="col-6">
-									<h5 class="card-title"><?php echo($article['nom']) ?></h5>
-									<?php 
-										if ($article['aQuantite']==0) {
-											?><script>disabled_map.set("article<?php echo $article['idArticle']?>",true);</script>
-											<p id="message_article<?php echo($article['idArticle'])?>" style='color: red;'>L'article n'est plus disponible</p>
-									<?php
-										}else{
-											if ($article['aQuantite']<$article['pQuantite']) {
-												?><script>disabled_map.set("article<?php echo $article['idArticle']?>",true)</script>
-												<p id="message_article<?php echo($article['idArticle'])?>" style='color: red;'>Il n'y a plus assez d'article. Il n'en reste que  <?php echo $article['aQuantite'] ?> </p>
-									<?php
-											}else{
-									?>
-												<p id="message_article<?php echo($article['idArticle'])?>" style='color: green;'>Disponible immédiatement</p>
-									<?php
-											}
-										}
-									?>
-									<form id="delete<?php echo($article['idArticle'])?>" class="deleteForm" method="POST" action="traitement\supprimerDuPanier.php">
-										<input id="idA_delete<?php echo($article['idArticle'])?>" type="text" hidden="True" name="idA" value=<?php echo($article['idArticle']);?>>
-										<input id="idC_delete<?php echo($article['idArticle'])?>" type="text" hidden="True" name="idC" value=<?php echo($article['idClient']);?>>
-										<button  class="btn btn-outline-secondary btn-sm" type="submit">supprimer</button>
-									</form>
+								<div class="col-sm-3 col-xs-12">
+								<a class="btn btn-warning ml-auto" href="index.php">Faire des achats</a>
 								</div>
-								<div class="col-2">
+							</div>
+						</li>
+					</ul>
+				<script>
+					disabled_map.set("nothing", true);
+				</script>
+				<?php
+				}else{
+				foreach ($resultat as $article) {
+				?>
+				<div class="card" style="margin-bottom: 5px;">
+					<div class="card-header">
+						<h5 class="card-title"><?php echo($article['nom']) ?></h5>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-5 col-md-3">
+								<img src="<?php echo($article['image']) ?>" class="img-fluid">
+							</div>
+							<div class="col-7 col-md-6">
+								<div class="row">
+									<div id="prix_article<?php echo($article['idArticle'])?>" class="col-12">
+										<script>
+											document.write('<h5><?php echo $article['prix'] * $article['pQuantite'];?>€</h5>')
+											prix.set("article<?php echo $article['idArticle'];?>", <?php echo $article['prix'] * $article['pQuantite']?>);
+										</script>
+									</div>
+								</div>
+								<div class="row">
+								<div class="col-8 col-md-8">
 									<form method="POST" action="traitements/modifierQuantitePanier.php">
 										<input id="idA_nbr_article<?php echo($article['idArticle'])?>" type="text" hidden="True" name="idA" value=<?php echo $article['idArticle'];?>>
 										<input id="idC_nbr_article<?php echo($article['idArticle'])?>" type="text" hidden="True" name="idC" value=<?php echo $article['idClient'];?>>
 										<input id="prix_nbr_article<?php echo($article['idArticle'])?>" type="text" hidden="True" name="prix" value=<?php echo $article['prix'];?>>
-										<input id="nbr_article<?php echo($article['idArticle'])?>" class="nbr_article_modif" type='number' name='qart' min=1 max=<?php echo ($article['aQuantite'] . " value=" . $article['pQuantite'])?>>
-										<div class="row" style="margin-top: 10px; margin-left:3px;">
-											<button class="nbrArticleMoins btn btn-sm" type="button" style="margin: 3px;" onclick="article_moins(<?php echo($article['idArticle'])?>)">-</button>
-											<button id="<?php echo($article['idArticle'])?>" class="nbrArticlePlus btn btn-sm" type="button" style="margin: 3px;">+</button>
+										<div class="input-group">
+											<input id="nbr_article<?php echo($article['idArticle'])?>" class="nbr_article_modif form-control" type='number' name='qart' min=1 max=<?php echo ($article['aQuantite'] . " value=" . $article['pQuantite'])?>>
+											<div class="input-group-append">
+												<button class="nbrArticleMoins btn btn-outline-dark" type="button" onclick="article_moins(<?php echo($article['idArticle'])?>)">-</button>
+												<button class="nbrArticlePlus btn btn-outline-dark" type="button" onclick="article_plus(<?php echo($article['idArticle'])?>)">+</button>
+											</div>
 										</div>
 									</form>
 								</div>
-								<div id="prix_article<?php echo($article['idArticle'])?>" class="col-2">
-									<script>
-										document.write('<p><?php echo $article['prix'] * $article['pQuantite'];?>€</p>')
-										prix.set("article<?php echo $article['idArticle'];?>", <?php echo $article['prix'] * $article['pQuantite']?>);
-									</script>
+									<div class="col-12 col-md-4">
+										<form id="delete<?php echo($article['idArticle'])?>" class="deleteForm" method="POST" action="traitement\supprimerDuPanier.php">
+											<input id="idA_delete<?php echo($article['idArticle'])?>" type="text" hidden="True" name="idA" value=<?php echo($article['idArticle']);?>>
+											<input id="idC_delete<?php echo($article['idArticle'])?>" type="text" hidden="True" name="idC" value=<?php echo($article['idClient']);?>>
+											<button  class="btn btn-outline-secondary btn-sm" type="submit">supprimer</button>
+										</form>
+									</div>
 								</div>
 							</div>
-		        		</li>
-		        	</ul>
-	        	<?php } } ?>
-	        	</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<?php 
+							if ($article['aQuantite']==0) {
+								?><script>disabled_map.set("article<?php echo $article['idArticle']?>",true);</script>
+								<p id="message_article<?php echo($article['idArticle'])?>" style='color: red;'>L'article n'est plus disponible</p>
+						<?php
+							}else{
+								if ($article['aQuantite']<$article['pQuantite']) {
+									?><script>disabled_map.set("article<?php echo $article['idArticle']?>",true)</script>
+									<p id="message_article<?php echo($article['idArticle'])?>" style='color: red;'>Il n'y a plus assez d'article. Il n'en reste que  <?php echo $article['aQuantite'] ?> </p>
+						<?php
+								}else{
+						?>
+									<p id="message_article<?php echo($article['idArticle'])?>" style='color: green;'>Disponible immédiatement</p>
+						<?php
+								}
+							}
+						?>
+					</div>
+				</div>
+			<?php } } ?>
 	    	</div>
 	    	<div class="col-md-3">
 		    	<div class="card mt-2">
@@ -166,17 +162,76 @@ $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
 		}
 		$("#buy_button").prop("disabled", false);
 	}
+
+	//bouton artcile_moins.click
+	function article_moins(idart){
+		idInput = 'nbr_article'+idart;
+		var nbr_article = document.getElementById(idInput).value;
+		nbr_article = parseInt(nbr_article);
+		if (nbr_article > 1){
+			nbr_article -=1;
+			document.getElementById(idInput).value = nbr_article;
+			nbr_article_change(idInput);
+		}
+	}
+
+	//bouton article_plus.click
+	function article_plus(idart){
+		idInput = 'nbr_article'+idart;
+		var nbr_article = document.getElementById(idInput).value;
+		nbr_article = parseInt(nbr_article);
+		if (nbr_article <= document.getElementById(idInput).getAttribute('max')){
+			nbr_article +=1;
+			document.getElementById(idInput).value = nbr_article;
+			nbr_article_change(idInput);
+		}
+	}
 </script>
 
 <!--script ajax-->
 <script>
-function article_moins(idart){
-	let nbr_article = int;
-	nbr_article = document.getElementById('nbr_article'+idart).value;
-	if (nbr_article <= 1){
-		
-	}
 
+// fonction requete ajax modification du nombre d'article
+function nbr_article_change(idInput){
+	var value = document.getElementById(idInput).value;
+	if(value <= 0){
+		console.log('value<=0');
+		$('#'+idInput).val = 1;
+	// }else if(value> document.getElementById(idInput).getAttribute('max')){
+	// 	console.log('value>max');
+	// 	$('#'+idInput).val = document.getElementById(idInput).getAttribute('max');
+	}else{
+		var idArticle = document.getElementById('idA_'+idInput).value;
+		var idClient = document.getElementById('idC_'+idInput).value;
+		var prixArticle = document.getElementById('prix_'+idInput).value;
+		$.ajax({
+			type : "POST",
+			url : 'ajax/modifierQuantitePanier.php',
+			data : {
+				idC : idClient,
+				idA : idArticle,
+				qart : value
+			},
+			dataType:"json",
+			success:function(data){
+				// recalcul du prix
+				prix.set("article"+idArticle, value * prixArticle)
+				prixTT = calcul_PrixTT();
+				document.getElementById('prix_article'+idArticle).innerHTML = "<p>" + prix.get("article"+idArticle) + "€</p>"
+				document.getElementById('prixTT').innerHTML = "<h2>Montant Total: " + prixTT + "€</h2>";
+				//vérification d'erreur
+				if(value <= document.getElementById(idInput).getAttribute('max') && disabled_map.get("article"+idArticle) === true){
+					disabled_map.set("article"+idArticle, false);
+					document.getElementById('message_article'+idArticle).innerHTML = "<p style='color: green;''>Disponible immédiatement</p>";
+					disabled_map.forEach(disable_verify);
+				}
+				
+			},
+			error: function(){
+				console.log("ERREUR");
+			}
+		});
+	}
 }
 
 $(document).ready(function(){
@@ -218,48 +273,10 @@ $(document).ready(function(){
 		});
 	});
 
-	// si l'on modifie le nombre d'article
-	$(".nbr_article_modif").bind('keyup mouseup', function(e){
+	// si l'on modifie l'input du nombre d'article
+	$(".nbr_article_modif").on('change', function(e){
 		var idInput = e.target.id;
-		var value = document.getElementById(idInput).value;
-		if(value <= 0){
-			console.log('value<=0');
-			$('#'+idInput).val = 1;
-		// }else if(value> document.getElementById(idInput).getAttribute('max')){
-		// 	console.log('value>max');
-		// 	$('#'+idInput).val = document.getElementById(idInput).getAttribute('max');
-		}else{
-			var idArticle = document.getElementById('idA_'+idInput).value;
-			var idClient = document.getElementById('idC_'+idInput).value;
-			var prixArticle = document.getElementById('prix_'+idInput).value;
-			$.ajax({
-				type : "POST",
-				url : 'ajax/modifierQuantitePanier.php',
-				data : {
-					idC : idClient,
-					idA : idArticle,
-					qart : value
-				},
-				dataType:"json",
-				success:function(data){
-					// recalcul du prix
-					prix.set("article"+idArticle, value * prixArticle)
-					prixTT = calcul_PrixTT();
-					document.getElementById('prix_article'+idArticle).innerHTML = "<p>" + prix.get("article"+idArticle) + "€</p>"
-					document.getElementById('prixTT').innerHTML = "<h2>Montant Total: " + prixTT + "€</h2>";
-					//vérification d'erreur
-					if(value <= document.getElementById(idInput).getAttribute('max') && disabled_map.get("article"+idArticle) === true){
-						disabled_map.set("article"+idArticle, false);
-						document.getElementById('message_article'+idArticle).innerHTML = "<p style='color: green;''>Disponible immédiatement</p>";
-						disabled_map.forEach(disable_verify);
-					}
-					
-				},
-				error: function(){
-					console.log("ERREUR");
-				}
-			});
-		}
+		nbr_article_change(idInput);
 	});
 });
 </script>

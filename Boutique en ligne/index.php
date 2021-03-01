@@ -1,6 +1,8 @@
 <?php  
 session_start();
 include('header.html');
+
+$afficher_categories = true
 ?>
   <body>
     <header>

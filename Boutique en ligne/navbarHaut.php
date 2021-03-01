@@ -2,28 +2,31 @@
 require_once("modeles/Categorie.php");
 $Categorie = new Categorie();
 $resultatCat = $Categorie->recupererCategories();
- ?>
+?>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
 	<a class="navbar-brand" href="index.php">
 		<img src="logo_Prodajha.png" style="height: 50px; width:auto; margin-left:0" class="float-left" alt="Prodajha" >
 	</a>
-	<ul class="nav nav-pill" style="margin-left: 10px;">
-		<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Catégories</a>
-			<div class="dropdown-menu">
-				<a class="dropdown-item" href="index.php">Toutes</a>
-				<div class="dropdown-divider"></div>
-				<?php foreach ($resultatCat as $categorie) {
-					echo"<a class='dropdown-item'
-					href='index.php?idcat=".$categorie['idCategorie']."'>"
-					.$categorie['nom']."
-					</a>";
-				} ?>
-			</div>
-		</li>		
-	</ul>
+	<?php if ($afficher_categories == true){
+		?>
+		<ul class="nav nav-pill" style="margin-left: 10px;">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Catégories</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" href="index.php">Toutes</a>
+					<div class="dropdown-divider"></div>
+					<?php foreach ($resultatCat as $categorie) {
+						echo"<a class='dropdown-item'
+						href='index.php?idcat=".$categorie['idCategorie']."'>"
+						.$categorie['nom']."
+						</a>";
+					} ?>
+				</div>
+			</li>		
+		</ul>
 		<?php
+	}
 		if($_SESSION) { ?>
 		<a class="btn btn-warning ml-auto mr-2" href="panier.php">
 			<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-basket" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
