@@ -43,7 +43,7 @@ $afficher_categories = false;
 				}else{
 				foreach ($resultat as $article) {
 				?>
-				<div class="card" style="margin-bottom: 5px;">
+				<div id="article<?php echo($article['idArticle'])?>" class="card" style="margin-bottom: 5px;">
 					<div class="card-header">
 						<h5 class="card-title"><?php echo($article['nom']) ?></h5>
 					</div>
@@ -120,9 +120,8 @@ $afficher_categories = false;
 							<div id="prixTT" class="col-md-12 col-sm-9 col-xs-12">
 								<script>
 									function calcul_PrixTT(){
-										prixTT = 0
-										listPrix = prix.values();
-										prix.forEach(value => prixTT += value)
+										let prixTT = 0;
+										prix.forEach(value => prixTT += value);
 										return prixTT;
 									}
 									var prixTT = calcul_PrixTT();
@@ -158,7 +157,6 @@ $afficher_categories = false;
 <script>
 	// verification si un article est disable dans le dictionnaire
 	function disable_verify(value, key, map){
-		console.log(disabled_map);
 		if (value === true){
 			$("#buy_button").prop("disabled", true);
 			return true
@@ -193,12 +191,10 @@ $afficher_categories = false;
 
 <!--script ajax-->
 <script>
-
 // fonction requete ajax modification du nombre d'article
 function nbr_article_change(idInput){
 	var value = document.getElementById(idInput).value;
 	if(value <= 0){
-		console.log('value<=0');
 		$('#'+idInput).val = 1;
 	// }else if(value> document.getElementById(idInput).getAttribute('max')){
 	// 	console.log('value>max');
@@ -218,7 +214,9 @@ function nbr_article_change(idInput){
 			dataType:"json",
 			success:function(data){
 				// recalcul du prix
-				prix.set("article"+idArticle, value * prixArticle)
+				nouveau_prix = value * prixArticle;
+				nouveau_prix.toFixed(2);
+				prix.set("article"+idArticle, nouveau_prix)
 				prixTT = calcul_PrixTT();
 				document.getElementById('prix_article'+idArticle).innerHTML = "<p>" + prix.get("article"+idArticle) + "€</p>"
 				document.getElementById('prixTT').innerHTML = "<h2>Montant Total: " + prixTT + "€</h2>";
@@ -239,7 +237,6 @@ function nbr_article_change(idInput){
 
 $(document).ready(function(){
 
-	console.log(disabled_map);
 	disabled_map.forEach(disable_verify);
 
 	// si l'on supprime un article
@@ -262,8 +259,8 @@ $(document).ready(function(){
 			article.remove();
 			// recalcul du prix
 			prix.delete("article"+idArticle);
-			PrixTT = calcul_PrixTT();
-			document.getElementById('prixTT').innerHTML = "<h2>Montant Total: "+prixTT+"€</h2>";
+			prixTT = calcul_PrixTT();
+			document.getElementById('prixTT').innerHTML = "<h2>Montant Total: " + prixTT + "€</h2>";
 			// vérification si un message d'erreur
 			if(disabled_map.get("article"+idArticle) === true){
 						disabled_map.set("article"+idArticle, false);

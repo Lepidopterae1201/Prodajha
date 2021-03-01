@@ -12,9 +12,10 @@ $resultatCat = $Categorie->recupererCategories();
 	<!--categories dropdown-->
 	<?php if ($afficher_categories == true){
 		?>
-		<ul class="nav nav-pill" style="margin-left: 10px;">
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Catégories</a>
+		<div class="input-group" style="margin-left:30px; margin-right:30px;">
+		<!--Navigation par catégorie-->
+			<div class="input-group-prepend">
+				<button class="btn btn-outline-warning dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catégories</button>
 				<div class="dropdown-menu bg-secondary">
 					<a class="dropdown-item text-light" href="index.php">Toutes</a>
 					<div class="dropdown-divider"></div>
@@ -25,8 +26,21 @@ $resultatCat = $Categorie->recupererCategories();
 						</a>";
 					} ?>
 				</div>
-			</li>		
-		</ul>
+			</div>
+			<!--barre de navigation-->
+			<input id="search_bar" type="text" class="form-control" placeholder="Rechercher..." list="search_data">
+			<!--résultats recherche-->
+			<datalist id="search_data">
+					
+			</datalist>
+			<div class="input-group-append">
+				<button class="btn btn-outline-warning" type="submit">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+						<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+					</svg>
+				</button>
+			</div>
+		</div>
 		<?php
 	}
 		if($_SESSION) { ?>
@@ -65,3 +79,33 @@ $resultatCat = $Categorie->recupererCategories();
 		}
 		?>
 </nav>
+
+<!--librairie jquery-->
+<script src="static/jquery-3.5.1.min.js"></script>
+
+<script>
+	$(document).ready(function(){
+		$('#search_bar').on('input', function(){
+			search = $('#search_bar').val();
+			console.log(search)
+
+			$.ajax({
+				type : "POST",
+				url : 'ajax/search.php',
+				data : {
+					search: search
+				},
+				dataType:"json",
+				success:function(data){
+					document.getElementById('search_data').innerHTML = "";
+					data.forEach((article)=>{
+						document.getElementById('search_data').innerHTML += "<option id='"+ article.idArticle +"' class='search-data' value='"+ article.nom +"'></option>";
+					})
+				},
+				error: function(){
+					console.log("ERREUR");
+				}
+			});
+		})
+	})
+</script>
