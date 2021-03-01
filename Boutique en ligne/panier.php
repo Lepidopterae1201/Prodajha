@@ -8,7 +8,7 @@ $Resultat = new Panier();
 $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
 ?>
 <script>
-	var disabled = 0;
+	let disabled_map = new Map;
 	var prix = new Map;
 </script>
 <?php include('header.html'); ?>
@@ -51,8 +51,10 @@ $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
 								</div>
 							</li>
 						</ul>
+					<script>
+						disabled_map.set("nothing", true);
+					</script>
 					<?php
-					$disabled += 1;
 					}else{
 					foreach ($resultat as $article) {
 	        		?>
@@ -66,14 +68,18 @@ $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
 									<h5 class="card-title"><?php echo($article['nom']) ?></h5>
 									<?php 
 										if ($article['aQuantite']==0) {
-											?><script>disabled+=1;</script><?php
-											echo "<p style='color: red;''>L'article n'est plus disponible</p>";
+											?><script>disabled_map.set("article<?php echo $article['idArticle']?>",true);</script>
+											<p id="message_article<?php echo($article['idArticle'])?>" style='color: red;'>L'article n'est plus disponible</p>
+									<?php
 										}else{
 											if ($article['aQuantite']<$article['pQuantite']) {
-												?><script>disabled+=1;</script><?php
-												echo "<p style='color: red;''>Il n'y a plus assez d'article. Il n'en reste que " . $article['aQuantite'] . "</p>";
+												?><script>disabled_map.set("article<?php echo $article['idArticle']?>",true)</script>
+												<p id="message_article<?php echo($article['idArticle'])?>" style='color: red;'>Il n'y a plus assez d'article. Il n'en reste que  <?php echo $article['aQuantite'] ?> </p>
+									<?php
 											}else{
-												echo "<p style='color: green;''>Disponible immédiatement</p>";
+									?>
+												<p id="message_article<?php echo($article['idArticle'])?>" style='color: green;'>Disponible immédiatement</p>
+									<?php
 											}
 										}
 									?>
@@ -110,30 +116,23 @@ $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
 	    	<div class="col-md-3">
 		    	<div class="card mt-2">
 		    		<div class="card-body">
-		    				<div class="row">
-		    					<div id="prixTT" class="col-md-12 col-sm-9 col-xs-12">
-									<script>
-										function calcul_PrixTT(){
-											prixTT = 0
-											listPrix = prix.values();
-											console.log(listPrix);
-											prix.forEach(value => prixTT += value)
-											return prixTT;
-										}
-										var prixTT = calcul_PrixTT();
-										document.write('<h2 >Montant Total: '+prixTT +'€</h2>');
-									</script>
-			    				</div>
-			    				<div class="col-md-12 col-sm-3 col-xs-12" >
-									<script>
-									 	if(disabled>0){
-											 document.write("<button class='btn btn-warning' disabled>Valider ma commande</button>");
-											}else{
-												document.write("<button class='btn btn-warning'>Valider ma commande</button>");
-											}
-									</script>
-			    				</div>
-		    				</div>		        	
+						<div class="row">
+							<div id="prixTT" class="col-md-12 col-sm-9 col-xs-12">
+								<script>
+									function calcul_PrixTT(){
+										prixTT = 0
+										listPrix = prix.values();
+										prix.forEach(value => prixTT += value)
+										return prixTT;
+									}
+									var prixTT = calcul_PrixTT();
+									document.write('<h2 >Montant Total: '+prixTT +'€</h2>');
+								</script>
+							</div>
+							<div class="col-md-12 col-sm-3 col-xs-12" >
+								<button id="buy_button" class='btn btn-warning'>Valider ma commande</button>
+							</div>
+						</div>		        	
 		    		</div>
 		    	</div>
 		    </div>
@@ -156,9 +155,27 @@ $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
 <!--js bootstrap-->
 <script src="static/bootstrap/js/bootstrap.min.js"></script>
 
+<!-- scripts js-->
+<script>
+	// verification si un article est disable dans le dictionnaire
+	function disable_verify(value, key, map){
+		console.log(disabled_map);
+		if (value === true){
+			$("#buy_button").prop("disabled", true);
+			return true
+		}
+		$("#buy_button").prop("disabled", false);
+	}
+</script>
+
 <!--script ajax-->
 <script>
 $(document).ready(function(){
+
+	console.log(disabled_map);
+	disabled_map.forEach(disable_verify);
+
+	// si l'on supprime un article
   	$(".deleteForm").submit(function(e){
 		var idForm = e.target.id;
 		e.preventDefault();
@@ -176,15 +193,23 @@ $(document).ready(function(){
 			// supprimer la visibilité de l'article
 			article = document.getElementById("article"+idArticle);
 			article.remove();
+			// recalcul du prix
 			prix.delete("article"+idArticle);
 			PrixTT = calcul_PrixTT();
-			document.getElementById('prixTT').innerHTML = "<h2>Montant Total:" + PrixTT + " €</h2>";
+			document.getElementById('prixTT').innerHTML = "<h2>Montant Total: "+prixTT+"€</h2>";
+			// vérification si un message d'erreur
+			if(disabled_map.get("article"+idArticle) === true){
+						disabled_map.set("article"+idArticle, false);
+						disabled_map.forEach(disable_verify);
+					}
 		},
 		error: function(){
 			console.log("ERREUR");
 		}
 		});
 	});
+
+	// si l'on modifie le nombre d'article
 	$(".nbr_article_modif").bind('keyup mouseup', function(e){
 		var idInput = e.target.id;
 		var value = document.getElementById(idInput).value;
@@ -208,10 +233,18 @@ $(document).ready(function(){
 				},
 				dataType:"json",
 				success:function(data){
+					// recalcul du prix
 					prix.set("article"+idArticle, value * prixArticle)
 					prixTT = calcul_PrixTT();
 					document.getElementById('prix_article'+idArticle).innerHTML = "<p>" + prix.get("article"+idArticle) + "€</p>"
-					document.getElementById('prixTT').innerHTML = "<h2>Montant Total:" + prixTT + " €</h2>";
+					document.getElementById('prixTT').innerHTML = "<h2>Montant Total: " + prixTT + "€</h2>";
+					//vérification d'erreur
+					if(value <= document.getElementById(idInput).getAttribute('max') && disabled_map.get("article"+idArticle) === true){
+						disabled_map.set("article"+idArticle, false);
+						document.getElementById('message_article'+idArticle).innerHTML = "<p style='color: green;''>Disponible immédiatement</p>";
+						disabled_map.forEach(disable_verify);
+					}
+					
 				},
 				error: function(){
 					console.log("ERREUR");
@@ -219,14 +252,6 @@ $(document).ready(function(){
 			});
 		}
 	});
-	$('.nbrArticleMoins').click(function(e){
-		var idButton = e.target.id;
-		document.getElementById("nbr_article"+idButton).val = document.getElementById("nbr_article"+idButton).val -1;
-	});
-	$('.nbrArticlePlus').click(function(e){
-		var idButton = e.target.id;
-		document.getElementById("nbr_article"+idButton).val = document.getElementById("nbr_article"+idButton).val +1;
-	})
 });
 </script>
 <?php } //end "if connected"?>
