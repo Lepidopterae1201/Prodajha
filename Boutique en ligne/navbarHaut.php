@@ -34,7 +34,7 @@ $resultatCat = $Categorie->recupererCategories();
 					
 			</datalist>
 			<div class="input-group-append">
-				<button class="btn btn-outline-warning" type="submit">
+				<button id="search_button" class="btn btn-outline-warning" type="button">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
 						<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
 					</svg>
@@ -84,28 +84,50 @@ $resultatCat = $Categorie->recupererCategories();
 <script src="static/jquery-3.5.1.min.js"></script>
 
 <script>
+	//fonction lancement de recherche
+	function go_search(search){
+		console.log(search);
+		window.location.href = "index.php?search=" + search;
+	}
+
 	$(document).ready(function(){
 		$('#search_bar').on('input', function(){
-			search = $('#search_bar').val();
-			console.log(search)
+			if($('#search_bar').val() != ""){
+				search = $('#search_bar').val();
+				var x = 0;
 
-			$.ajax({
-				type : "POST",
-				url : 'ajax/search.php',
-				data : {
-					search: search
-				},
-				dataType:"json",
-				success:function(data){
-					document.getElementById('search_data').innerHTML = "";
-					data.forEach((article)=>{
-						document.getElementById('search_data').innerHTML += "<option id='"+ article.idArticle +"' class='search-data' value='"+ article.nom +"'></option>";
-					})
-				},
-				error: function(){
-					console.log("ERREUR");
-				}
-			});
+				$.ajax({
+					type : "POST",
+					url : 'ajax/search.php',
+					data : {
+						search: encodeURI(search)
+					},
+					dataType:"json",
+					success:function(data){
+						document.getElementById('search_data').innerHTML = "";
+						data.forEach((article)=>{
+							document.getElementById('search_data').innerHTML += "<option id='recherche"+ x +"' class='search-value' value='"+ article.nom +"' onclick='go_search(" + article.nom + ")'></option>";
+						})
+						if(document.querySelectorAll('.search-value').length == 1){
+							if($('.search-value').val() === search){
+								go_search(search);
+							}
+						}
+					},
+					error: function(){
+						console.log("ERREUR");
+					}
+				});
+			}
+		})
+
+		$("#search_button").on('click', function(){
+			search = $('#search_bar').val()
+			go_search(search);
+		})
+
+		$("#search_data").on('change', function(e){
+			console.log('hello');
 		})
 	})
 </script>

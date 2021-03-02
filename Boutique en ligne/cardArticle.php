@@ -19,9 +19,13 @@ $parPage = 4;
 $premier = ($currentPage * $parPage) - $parPage;
 
 if (isset($_GET["idcat"])) {
-  $listeArticles = $Article->rechecheParCategorie($_GET["idcat"], $premier, $parPage);
+  $listeArticles = $Article->recupererParCategorie($_GET["idcat"], $premier, $parPage);
   $nbArticle = (int) $Article->compterArticle($_GET["idcat"])["nb_articles"];
-}else{
+}elseif(isset($_GET["search"])){
+  $listeArticles = $Article->recupererParSearch(urldecode($_GET["search"]), $premier, $parPage);
+  $nbArticle = (int) $Article->compterArticle($_GET["search"])["nb_articles"];
+}
+else{
   $listeArticles = $Article->recupererArticles($premier, $parPage);
   $nbArticle = (int) $Article->compterArticle()["nb_articles"];
 

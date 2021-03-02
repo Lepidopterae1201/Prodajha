@@ -5,7 +5,7 @@ require_once('Modele.php');
 class Article extends Modele
 {
 	function searchArticle($search){
-		$requete = "SELECT idArticle, nom FROM article WHERE article.nom LIKE ?";
+		$requete = "SELECT idArticle, nom FROM article WHERE article.nom LIKE ? LIMIT 5";
 		return $this->execRequete($requete, ['%'.$search.'%'])->fetchAll(PDO::FETCH_ASSOC);
 	}
 
@@ -14,9 +14,14 @@ class Article extends Modele
 		return $this->execRequete($requete)->fetchAll();
 	}
 
-	function rechecheParCategorie($idcat, $premier, $dernier){
+	function recupererParCategorie($idcat, $premier, $dernier){
 		$requete = "SELECT * FROM article WHERE IdCategorie = ? ORDER BY idArticle DESC LIMIT $premier, $dernier;";
 		return $this->execRequete($requete, [$idcat])->fetchAll();
+	}
+
+	function recupererParSearch($search, $premier, $dernier){
+		$requete = "SELECT * FROM article WHERE article.nom LIKE ? ORDER BY idArticle DESC LIMIT $premier, $dernier;";
+		return $this->execRequete($requete, ['%'.$search.'%'])->fetchAll();
 	}
 
 	function afficherArticle($idart){
@@ -24,10 +29,13 @@ class Article extends Modele
 		return $this->execRequete($requete, [$idart])->fetch();	
 	}
 
-	function compterArticle($idcat = NULL){
+	function compterArticle($idcat = NULL, $search = NULL){
 		if ($idcat === NULL){
 			$requete = "SELECT COUNT(idArticle) AS nb_articles FROM article;";
 			return $this->execRequete($requete)->fetch();
+		}elseif ($search !== NULL){
+			$requete = "SELECT COUNT(idArticle) AS nb_articles FROM article WHERE nom LIKE ?;";
+			return $this->execRequete($requete, ['%'.$search.'%'])->fetch();
 		}else{
 			$requete = "SELECT COUNT(idArticle) AS nb_articles FROM article WHERE IdCategorie = ?;";
 			return $this->execRequete($requete, [$idcat])->fetch();
