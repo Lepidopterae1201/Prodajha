@@ -103,7 +103,7 @@ $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
 								</div>
 								<div id="prix_article<?php echo($article['idArticle'])?>" class="col-2">
 									<script>
-										document.write('<p><?php echo $article['prix'] * $article['pQuantite'];?>€</p>')
+										document.write('<p><?php echo round($article['prix'] * $article['pQuantite'],2);?>€</p>')
 										prix.set("article<?php echo $article['idArticle'];?>", <?php echo $article['prix'] * $article['pQuantite']?>);
 									</script>
 								</div>
@@ -123,7 +123,7 @@ $resultat = $Resultat->afficherPanier($_SESSION['idClient']);
 										prixTT = 0
 										listPrix = prix.values();
 										prix.forEach(value => prixTT += value)
-										return prixTT;
+										return Math.round(prixTT*100)/100;
 									}
 									var prixTT = calcul_PrixTT();
 									document.write('<h2 >Montant Total: '+prixTT +'€</h2>');
