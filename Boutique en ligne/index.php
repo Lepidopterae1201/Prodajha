@@ -1,6 +1,8 @@
 <?php  
 session_start();
 include('header.html');
+
+$afficher_categories = true
 ?>
   <body>
     <header>
@@ -54,7 +56,6 @@ include('header.html');
       text-align: center;
     }
   </style>
-  <!--js bootstrap-->
 <!--librairie jquery-->
 <script src="static/jquery-3.5.1.min.js"></script>
 

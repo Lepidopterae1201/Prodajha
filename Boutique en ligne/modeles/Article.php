@@ -4,6 +4,11 @@ require_once('Modele.php');
 
 class Article extends Modele
 {
+	function searchArticle($search){
+		$requete = "SELECT idArticle, nom FROM article WHERE article.nom LIKE ?";
+		return $this->execRequete($requete, ['%'.$search.'%'])->fetchAll(PDO::FETCH_ASSOC);
+	}
+
 	function recupererArticles($premier, $dernier){
 		$requete = "SELECT * FROM article ORDER BY idArticle DESC LIMIT $premier, $dernier;";
 		return $this->execRequete($requete)->fetchAll();

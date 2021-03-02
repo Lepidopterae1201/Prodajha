@@ -1,5 +1,6 @@
 <?php
 include('header.html');
+$afficher_categories = false;
 ?>
 
 <body>

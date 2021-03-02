@@ -11,6 +11,7 @@ $Panier = new Panier();
 $Article = new Article();
 $art = $Article->afficherArticle($_GET['idart']);
 $magasin = $Article->recupVendeur($_GET['idart']);
+$afficher_categories = true;
 
 
 $Review =  new Review();
