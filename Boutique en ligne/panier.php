@@ -195,44 +195,45 @@ $afficher_categories = false;
 function nbr_article_change(idInput){
 	var value = document.getElementById(idInput).value;
 	if(value <= 0){
-		$('#'+idInput).val = 1;
-	// }else if(value> document.getElementById(idInput).getAttribute('max')){
-	// 	console.log('value>max');
-	// 	$('#'+idInput).val = document.getElementById(idInput).getAttribute('max');
-	}else{
-		var idArticle = document.getElementById('idA_'+idInput).value;
-		var idClient = document.getElementById('idC_'+idInput).value;
-		var prixArticle = document.getElementById('prix_'+idInput).value;
-		$.ajax({
-			type : "POST",
-			url : 'ajax/modifierQuantitePanier.php',
-			data : {
-				idC : idClient,
-				idA : idArticle,
-				qart : value
-			},
-			dataType:"json",
-			success:function(data){
-				// recalcul du prix
-				nouveau_prix = value * prixArticle;
-				nouveau_prix.toFixed(2);
-				prix.set("article"+idArticle, nouveau_prix)
-				prixTT = calcul_PrixTT();
-				document.getElementById('prix_article'+idArticle).innerHTML = "<p>" + prix.get("article"+idArticle) + "€</p>"
-				document.getElementById('prixTT').innerHTML = "<h2>Montant Total: " + prixTT + "€</h2>";
-				//vérification d'erreur
-				if(value <= document.getElementById(idInput).getAttribute('max') && disabled_map.get("article"+idArticle) === true){
-					disabled_map.set("article"+idArticle, false);
-					document.getElementById('message_article'+idArticle).innerHTML = "<p style='color: green;''>Disponible immédiatement</p>";
-					disabled_map.forEach(disable_verify);
-				}
-				
-			},
-			error: function(){
-				console.log("ERREUR");
-			}
-		});
+		document.getElementById(idInput).value = 1;
+		value = 1;
+	}else if(value > parseInt(document.getElementById(idInput).getAttribute('max'))){
+		console.log(document.getElementById(idInput).getAttribute('max'));
+		document.getElementById(idInput).value = document.getElementById(idInput).getAttribute('max');
+		value = document.getElementById(idInput).getAttribute('max');
 	}
+	var idArticle = document.getElementById('idA_'+idInput).value;
+	var idClient = document.getElementById('idC_'+idInput).value;
+	var prixArticle = document.getElementById('prix_'+idInput).value;
+	$.ajax({
+		type : "POST",
+		url : 'ajax/modifierQuantitePanier.php',
+		data : {
+			idC : idClient,
+			idA : idArticle,
+			qart : value
+		},
+		dataType:"json",
+		success:function(data){
+			// recalcul du prix
+			nouveau_prix = value * prixArticle;
+			nouveau_prix.toFixed(2);
+			prix.set("article"+idArticle, nouveau_prix)
+			prixTT = calcul_PrixTT();
+			document.getElementById('prix_article'+idArticle).innerHTML = "<h5>" + prix.get("article"+idArticle) + "€</h5>"
+			document.getElementById('prixTT').innerHTML = "<h2>Montant Total: " + prixTT + "€</h2>";
+			//vérification d'erreur
+			if(value <= document.getElementById(idInput).getAttribute('max') && disabled_map.get("article"+idArticle) === true){
+				disabled_map.set("article"+idArticle, false);
+				document.getElementById('message_article'+idArticle).innerHTML = "<p style='color: green;''>Disponible immédiatement</p>";
+				disabled_map.forEach(disable_verify);
+			}
+			
+		},
+		error: function(){
+			console.log("ERREUR");
+		}
+	});
 }
 
 $(document).ready(function(){
