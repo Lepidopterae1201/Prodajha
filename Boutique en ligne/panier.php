@@ -164,7 +164,7 @@ $afficher_categories = false;
 		$("#buy_button").prop("disabled", false);
 	}
 
-	//bouton artcile_moins.click
+	//bouton article_moins.click
 	function article_moins(idart){
 		idInput = 'nbr_article'+idart;
 		var nbr_article = document.getElementById(idInput).value;
