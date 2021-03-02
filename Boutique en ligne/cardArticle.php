@@ -53,7 +53,7 @@ if($_SESSION){
                   <div class="card-body">
                     <a href="article.php?idart=<?php echo($article['idArticle']);?>">
                       <h5 class="card-title"><?php echo($article['nom']) ?></h5>
-                      <p class="card-text"><?php echo($article['prix']) ?></p>
+                      <p class="card-text"><?php echo($article['prix']) ?> €</p>
                     </a>
                     <hr>
                     <?php

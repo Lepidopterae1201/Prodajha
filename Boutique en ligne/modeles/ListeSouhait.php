@@ -16,7 +16,7 @@ class ListeSouhait extends Modele
     }
 
     function afficherListeSouhait($idC){
-        $requete = "SELECT idArticle, article.prix, article.nom, article.image, article.quantite FROM listesouhait
+        $requete = "SELECT article.idArticle, article.prix, article.nom, article.image, article.quantite FROM listesouhait
         INNER JOIN article ON listesouhait.idArticle = article.idArticle WHERE idClient = ?";
         return $this->execRequete($requete, [$idC])->fetchAll();
     }
