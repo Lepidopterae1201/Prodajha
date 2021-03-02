@@ -57,7 +57,7 @@ $afficher_categories = false;
 									<div class="row">
 										<div id="prix_article<?php echo($article['idArticle'])?>" class="col-12">
 											<script>
-												document.write('<h5><?php echo $article['prix'] * $article['pQuantite'];?>€</h5>')
+												document.write('<h5><?php echo round($article['prix'] * $article['pQuantite'],2);?>€</h5>')
 												prix.set("article<?php echo $article['idArticle'];?>", <?php echo $article['prix'] * $article['pQuantite']?>);
 											</script>
 										</div>
@@ -122,7 +122,7 @@ $afficher_categories = false;
 									function calcul_PrixTT(){
 										let prixTT = 0;
 										prix.forEach(value => prixTT += value);
-										return prixTT;
+										return Math.round(prixTT*100)/100;
 									}
 									var prixTT = calcul_PrixTT();
 									document.write('<h2>Montant Total: '+prixTT +'€</h2>');
