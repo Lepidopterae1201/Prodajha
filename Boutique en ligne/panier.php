@@ -122,7 +122,7 @@ $afficher_categories = false;
 									function calcul_PrixTT(){
 										let prixTT = 0;
 										prix.forEach(value => prixTT += value);
-										return prixTT;
+										return Math.round(prixTT*100)/100;
 									}
 									var prixTT = calcul_PrixTT();
 									document.write('<h2>Montant Total: '+prixTT +'€</h2>');
