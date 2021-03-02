@@ -194,11 +194,10 @@ $afficher_categories = false;
 // fonction requete ajax modification du nombre d'article
 function nbr_article_change(idInput){
 	var value = document.getElementById(idInput).value;
-	if(value <= 0){
+	if(value < 1){
 		document.getElementById(idInput).value = 1;
 		value = 1;
 	}else if(value > parseInt(document.getElementById(idInput).getAttribute('max'))){
-		console.log(document.getElementById(idInput).getAttribute('max'));
 		document.getElementById(idInput).value = document.getElementById(idInput).getAttribute('max');
 		value = document.getElementById(idInput).getAttribute('max');
 	}
