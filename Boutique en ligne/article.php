@@ -11,6 +11,7 @@ $Panier = new Panier();
 $Article = new Article();
 $art = $Article->afficherArticle($_GET['idart']);
 $magasin = $Article->recupVendeur($_GET['idart']);
+$afficher_categories = true;
 
 
 $Review =  new Review();
@@ -119,7 +120,7 @@ include('header.html')
                     foreach($rev as $review){
                       $i++;
                       $date = new DateTime($review['dateReview']);
-                      $dateReview = $date->format('d/m/Y');?>
+                      $dateReview = $date->format('d/m/Y/ G:i');?>
                       <div class="reviewAutre" >
                         <b><?= $review['pseudo']; ?></b>
                         <small><?= $dateReview; ?></small><br/><br/>

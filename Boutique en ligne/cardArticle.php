@@ -19,9 +19,13 @@ $parPage = 4;
 $premier = ($currentPage * $parPage) - $parPage;
 
 if (isset($_GET["idcat"])) {
-  $listeArticles = $Article->rechecheParCategorie($_GET["idcat"], $premier, $parPage);
+  $listeArticles = $Article->recupererParCategorie($_GET["idcat"], $premier, $parPage);
   $nbArticle = (int) $Article->compterArticle($_GET["idcat"])["nb_articles"];
-}else{
+}elseif(isset($_GET["search"])){
+  $listeArticles = $Article->recupererParSearch(urldecode($_GET["search"]), $premier, $parPage);
+  $nbArticle = (int) $Article->compterArticle($_GET["search"])["nb_articles"];
+}
+else{
   $listeArticles = $Article->recupererArticles($premier, $parPage);
   $nbArticle = (int) $Article->compterArticle()["nb_articles"];
 
@@ -53,7 +57,7 @@ if($_SESSION){
                   <div class="card-body">
                     <a href="article.php?idart=<?php echo($article['idArticle']);?>">
                       <h5 class="card-title"><?php echo($article['nom']) ?></h5>
-                      <p class="card-text"><?php echo($article['prix']) ?></p>
+                      <p class="card-text"><?php echo($article['prix']) ?> €</p>
                     </a>
                     <hr>
                     <?php
@@ -89,12 +93,9 @@ if($_SESSION){
 </body>
 
 <style>
-  .cardImage{
-    height: 100%;
-  }
   img{
-    max-height: 300px;
-    width: auto;
+    max-width: 100%;
+    height: auto;
     vertical-align: middle;
   }
   div.card{
