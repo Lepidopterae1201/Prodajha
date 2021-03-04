@@ -248,7 +248,7 @@ include('header.html')
       var idart = $('#articleSouhait input[name="idart"]').val();
       $.ajax({
         type: "POST",
-        url: 'ajax/ajouterInSoyhait.php',
+        url: 'ajax/ajouterInSouhait.php',
         data: {
           idart: idart,
         },
