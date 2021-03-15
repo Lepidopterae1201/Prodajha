@@ -8,7 +8,9 @@ require_once('modeles/ListeSouhait.php');
 date_default_timezone_set('Europe/Paris');
 
 $Panier = new Panier();
-$Liste = new ListeSouhait();
+
+
+
 
 $Article = new Article();
 $art = $Article->afficherArticle($_GET['idart']);
@@ -24,6 +26,10 @@ if ($_SESSION) {
 } else {
   $idClient = False;
 };
+$Liste = new ListeSouhait();
+$souhait = $Liste->articleInListeSouhait($idClient, $_GET['idart']);
+
+
 include('header.html')
 ?>
 
@@ -53,37 +59,42 @@ include('header.html')
             if ($_SESSION) {
               if ($art['quantite'] <= 0) {
             ?> <p style="color: red">L'article est épuisé</p> <?php
-            } elseif ($Panier->verifPanier($_GET['idart'], $idClient)) {
-              ?> <p style="color: green">Vous avez déjà acheté l'article</p> <?php
-                } else { ?>
+                                                            } elseif ($Panier->verifPanier($_GET['idart'], $idClient)) {
+                                                              ?> <p style="color: green">Vous avez déjà acheté l'article</p> <?php
+                                                                                                                            } else { ?>
                 <div class="row g-3">
                   <div id="articleForm">
                     <div class="col-auto">
-                      <form id="articleForm" method="POST" action="#">
-                        <input type="text" hidden="True" name="idart" value=<?php echo ($art['idArticle']); ?>>
-                        <?php echo "<input type='number' name='qart' min=1 max=" . $art['quantite'] . " value=1>"; ?>
-                        <button class="btn btn-warning" type="submit">Ajouter au panier</button>
-                      </form>
+                      <input id="idArt" type="text" hidden="True" name="idart" value=<?php echo ($art['idArticle']); ?>>
+                      <?php echo "<input id='qArt' type='number' name='qart' min=1 max=" . $art['quantite'] . " value=1>"; ?>
+                      <button id="get_in_panier" class="btn btn-warning" type="submit">Ajouter au panier</button>
+
                     </div>
                   </div>
+
                   <div id="articleSouhait">
                     <div class="col-auto">
-                      <form id="articleSouhait" method="POST" action="#">
-                        <input type="text" hidden="True" name="idart" value=<?php echo ($art['idArticle']); ?>>
-                        <button class="btn btn-warning" type="submit">
+                      <input id="idArt" type="text" hidden="True" name="idart" value=<?php echo ($art['idArticle']); ?>>
+                      <?php if ($souhait == True) { ?>
+                        <button id="Souhait" class="btn btn-warning" type="submit">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                          </svg>
+                        </button> <?php
+                                                                                                                              } else { ?>
+                        <button id="Souhait" class="btn btn-warning" type="submit">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
                             <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
                           </svg>
-                        </button>
-                      </form>
+                        </button> <?php } ?>
                     </div>
                   </div>
                 </div>
               <?php
-              }
-              } else {
+                                                                                                                            }
+                                                                                                                          } else {
               ?><a class="btn btn-secondary" href="connexion.php?page=Article&idart=<?php echo ($_GET['idart']) ?>">Se connecter</a><?php
-              } ?>
+                                                                                                                                  } ?>
           </div>
         </div>
 
@@ -218,10 +229,9 @@ include('header.html')
 <!--script ajax-->
 <script>
   $(document).ready(function() {
-    $("#articleForm").submit(function(e) {
-      e.preventDefault();
-      var idart = $('#articleForm input[name="idart"]').val();
-      var qart = $('#articleForm input[name="qart"]').val();
+    $("#get_in_panier").on('click', function() {
+      var idart = $('#idArt').val();
+      var qart = $('#qArt').val();
       $.ajax({
         type: "POST",
         url: 'ajax/ajouterInPanier.php',
@@ -231,8 +241,6 @@ include('header.html')
         },
         dataType: "json",
         success: function(data) {
-          // ouvre la popup
-          $('#AjoutTrue').modal('show');
           document.getElementById("articleForm").innerHTML = "<p style='color: green'>Vous avez déjà acheté l'article</p>";
         },
         error: function() {
@@ -243,20 +251,24 @@ include('header.html')
   });
 
   $(document).ready(function() {
-    $("#articleSouhait").submit(function(e) {
-      e.preventDefault();
-      var idart = $('#articleSouhait input[name="idart"]').val();
+    $("#Souhait").on('click', function() {
+      var idart = $('#idArt').val();
+      var idclient = <?php echo $idClient ?>;
       $.ajax({
         type: "POST",
-        url: 'ajax/ajouterInSouhait.php',
+        url: 'ajax/listeSouhait.php',
         data: {
           idart: idart,
+          idC: idclient,
         },
         dataType: "json",
         success: function(data) {
-          //ouvre la popup
-          $('#AjoutTrue').modal('show');
-          document.getElementById("articleSouhait").innerHTML = '<svg xmlns="http: //www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"> <path d = "M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" / > </svg>';
+          console.log(data.action);
+          if (action = 'del') {
+            document.getElementById("articleSouhait").children = '<svg xmlns = "http://www.w3.org/2000/svg" width = "16" height = "16" fill = "currentColor" class = "bi bi-star" viewBox = "0 0 16 16"> <path d = "M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" / > </svg>'
+          }else if(action = 'add'){
+            document.getElementById("articleSouhait").children = '<svg xmlns="http: //www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"> <path d = "M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" / > </svg>';
+          }
         },
         error: function() {
           console.log("ERREUR");
@@ -264,4 +276,5 @@ include('header.html')
       })
     })
   })
+
 </script>
