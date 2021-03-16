@@ -2,7 +2,7 @@
 session_start();
 include('header.html');
 
-$afficher_categories = true
+$afficher_categories = true;
 ?>
   <body>
     <header>
@@ -11,7 +11,11 @@ $afficher_categories = true
       ?>
     </header>
     <?php
+          if(isset($_GET['VALID'])) {
+            echo "<p style='text-align: center;'> Merci. Votre commande a bien était validée !</p>";
+          }
       include('cardArticle.php');
+
     ?>
       <nav>
         <ul class="pagination justify-content-center">

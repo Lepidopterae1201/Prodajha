@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('../modeles/Utilisateurs.php');
 $Utilisateurs = new Utilisateurs();
 
@@ -18,12 +19,12 @@ if(isset($_POST['mail']) && !empty($_POST['mail']) && isset($_POST['password']) 
     }else{
         $passVerif = $resultat['password'];
         if (password_verify($password, $passVerif)) {
-            session_start();
+
             $_SESSION['prenom'] = $resultat['prenom'];
             $_SESSION['nom'] = $resultat['nom'];
             $_SESSION['email'] = $resultat['email'];
             $_SESSION['idClient'] = $resultat['idClient'];
-
+            
             if (isset($_POST['page']) && isset($_POST['idart'])){
                 if ($_POST['page']=="Article") {
                     header("location:../article.php?idart=".$_POST['idart']);

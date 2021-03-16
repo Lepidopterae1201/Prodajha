@@ -64,6 +64,7 @@ $resultatCat = $Categorie->recupererCategories();
 				<div class="dropdown-menu dropdown-menu-right bg-secondary">
 					<a class="dropdown-item disabled" href="">Mon profil</a>
 					<a class="dropdown-item text-light" href="listeSouhait.php">Liste de Souhait</a>
+					<a class="dropdown-item text-light" href="contact.php">Support</a>
 					<div class="dropdown-divider"></div>
 					<a class="dropdown-item text-light" href="traitements\deconnexion.php">Déconnexion</a>
 				</div>

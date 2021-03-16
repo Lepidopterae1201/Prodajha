@@ -47,5 +47,14 @@ class Panier extends Modele
         $request = "DELETE FROM panier WHERE idClient=? AND idArticle=?";
         return $this->execRequete($request, [$idC, $idart]);
     }
+    function paiement($nom, $numero_de_carte, $date_expiration, $cvv){
+        $request = "INSERT INTO paiement (nom, numero_de_carte, date_expiration, cvv) VALUES (?,?, ?, ?) ";
+        try{
+            $this->execRequete($request, [$nom, $numero_de_carte, $date_expiration, $cvv]);
+            return true;
+        }catch(Exception $e){
+            return false;
+        }
+    }
 }
 ?>

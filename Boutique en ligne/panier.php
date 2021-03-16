@@ -129,7 +129,7 @@ $afficher_categories = false;
 								</script>
 							</div>
 							<div class="col-md-12 col-sm-3 col-xs-12" >
-								<button id="buy_button" class='btn btn-warning'>Valider ma commande</button>
+							<a href="form_paiement.php"><button id="buy_button" class='btn btn-warning'>Valider ma commande</button></a>	
 							</div>
 						</div>		        	
 		    		</div>
