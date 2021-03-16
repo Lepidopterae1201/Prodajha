@@ -54,7 +54,7 @@ include('header.html')
                   ?> <p style="color: green">Vous avez déjà acheté l'article</p> <?php
                 }else{?>
                 <div id="articleForm">
-                  <form id="articleForm" method="POST" action="traitements/ajouter.php">
+                  <form id="articleForm" method="POST" action="#">
                     <input type="text" hidden="True" name="idart" value=<?php echo($art['idArticle']);?>>
                     <?php echo "<input type='number' name='qart' min=1 max=".$art['quantite']." value=1>";?>
                     <button class="btn btn-warning" type="submit">Ajouter au panier</button>
