@@ -240,8 +240,8 @@ include('header.html')
         success: function(data) {
           document.getElementById("articleForm").innerHTML = "<p style='color: green'>Vous avez déjà acheté l'article</p>";
         },
-        error: function() {
-          console.log("ERREUR");
+        error: function(error) {
+          console.log(error);
         }
       });
     });

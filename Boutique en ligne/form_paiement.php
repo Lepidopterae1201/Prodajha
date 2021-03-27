@@ -61,8 +61,7 @@ include('navbarHaut.php');
     <link href="form-validation.css" rel="stylesheet">
   </head>
   <body> 
-
-          <h4 class="mb-3" style="margin-left:100px; margin-top:50px;">Paiement</h4>
+    <h4 class="mb-3" style="margin-left:100px; margin-top:50px;">Paiement</h4>
         <form action="traitements/paiement.php" method="POST">
           <div class="my-3">
             <div class="form-check">
@@ -90,30 +89,22 @@ include('navbarHaut.php');
             <div class="col-md-3">
               <label for="cc-expiration" class="form-label">Date d'expiration</label>
                 <div id="input-date" class="input-group">
-                <select name="mois" id="pet-select">
-                <option value="">Mois</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-            </select>
-            <select name="annee" id="pet-select">
-                <option value="">Année</option>
-                <option value="2021">2021</option>
-                <option value="2022">2022</option>
-                <option value="2023">2023</option>
-                <option value="2024">2024</option>
-                <option value="2025">2025</option>
-                <option value="2026">2026</option>
-            </select>
+                  <select name="mois">
+                    <option value="">Mois</option>
+                    <?php
+                    for ($i=1; $i<13; $i++){
+                      echo("<option value='".strval($i)."'>". strval($i)."</option>");
+                    }
+                    ?>
+                  </select>
+                  <select name="annee">
+                      <option value="">Année</option>
+                        <?php
+                        for ($i=2021; $i<2042; $i++){
+                          echo "<option value='".strval($i)."'>".strval($i)."</option>";
+                        }
+                        ?>
+                  </select>
                 </div>
             
             </div>

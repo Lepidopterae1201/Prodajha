@@ -28,10 +28,10 @@ class Panier extends Modele
         }	
     }
 
-    function ajoutPanier($idC, $idart, $qart){
-        $request = "INSERT INTO panier (idClient, idArticle, quantite) VALUES (?, ?, ?) ";
+    function ajoutPanier($idC, $idart, $idMagasin, $qart){
+        $request = "INSERT INTO panier (idClient, idArticle, idMagasin, quantite) VALUES (?, ?, ?, ?) ";
         try{
-            $this->execRequete($request, [$idC, $idart, $qart]);
+            $this->execRequete($request, [$idC, $idart, $idMagasin, $qart]);
             return true;
         }catch(Exception $e){
             return false;
@@ -47,13 +47,19 @@ class Panier extends Modele
         $request = "DELETE FROM panier WHERE idClient=? AND idArticle=?";
         return $this->execRequete($request, [$idC, $idart]);
     }
-    function paiement($nom, $numero_de_carte, $date_expiration, $cvv){
-        $request = "INSERT INTO paiement (nom, numero_de_carte, date_expiration, cvv) VALUES (?,?, ?, ?) ";
+
+    function getPanier($idC){
+        $request = "CALL get_panier(?)";
+        return $this->execRequete($request, [$idC]);
+    }
+
+    function deletePanier($idC){
+        $request = "CALL deletePanier(?)";
         try{
-            $this->execRequete($request, [$nom, $numero_de_carte, $date_expiration, $cvv]);
+            $this->execRequete($request, [$idC]);
             return true;
         }catch(Exception $e){
-            return false;
+            return $e;
         }
     }
 }
