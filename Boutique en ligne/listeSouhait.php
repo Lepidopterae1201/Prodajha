@@ -54,7 +54,8 @@ if ($_SESSION == False) {
 									<div class="col-7 col-md-6">
 										<div class="row">
 											<div class="col-12 col-ld-4">
-												<form id="idA_delete<?php echo ($article['idArticle']) ?>" class="deleteForm" method="POST" action="#">
+												<form id="idart_delete<?php echo ($article['idArticle']) ?>" class="deleteForm" method="POST" action="#">
+													<input id="idart_delete<?php echo ($article['idArticle']) ?>" type="text" hidden="True" name="idart" value=<?php echo ($article['idArticle']); ?>>
 													<button class="btn btn-outline-secondary btn-sm" type="submit">supprimer</button>
 												</form>
 											</div>
@@ -83,5 +84,37 @@ if ($_SESSION == False) {
 	</style>
 
 	<script src="static/jquery-3.5.1.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			$(".deleteForm").submit(function(e) {
+				var idForm = e.target.id;
+				e.preventDefault();
+				var idArticle = document.getElementById('idart' + idForm).value;
+				var idClient = document.getElementById('iC' + idForm).value;
+				$.ajax({
+					type: "POST",
+					url: 'ajax/supprimerSouhait.php',
+					data: {
+						idC: idClient,
+						idart: idArticle,
+					},
+					dataType: "json",
+					success: function(data) {
+						article = document.getElementById("article" + idArticle);
+						article.remove();
+						if (disabled_map.get("article" + idArticle) === true) {
+							disabled_map.set("article" + idArticle, false);
+							disabled_map.forEach(disable_verify);
+						}
+					},
+					error: function() {
+						console.log("ERREUR");
+					}
+				});
+			});
+		});
+	</script>
+
 
 <?php } ?>
