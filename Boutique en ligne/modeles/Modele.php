@@ -9,22 +9,12 @@ abstract class Modele
         
         if (self::$bdd === NULL)
         {
-            if ($en_ligne == true){
-                try{
-                    self::$bdd = new PDO("mysql:host=ipssisqprodajha.mysql.db;dbname=ipssisqprodajha;charset=UTF8", "ipssisqprodajha", "IpssiProdajha2021");
-                    self::$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                }catch(PDOException $e){
-                    exit;
-                }
-            }else{
-                try{
-                    self::$bdd = new PDO("mysql:host=localhost;dbname=boutique;charset=UTF8", "root", "");
-                    self::$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                }catch(PDOException $e){
-                    exit;
-                }
+            try{
+                self::$bdd = new PDO("mysql:host=localhost;dbname=boutique;charset=UTF8", "root", "");
+                self::$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            }catch(PDOException $e){
+                exit;
             }
-            
         }
         return self::$bdd;
     }
