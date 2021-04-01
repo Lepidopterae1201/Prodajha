@@ -9,12 +9,8 @@ if ($_SESSION == False) {
 	$resultat = $Resultat->afficherListeSouhait($_SESSION['idClient']);
 	$afficher_categories = false;
 ?>
-	<script>
-		let disabled_map = new Map;
-	</script>
-	<?php include('header.html'); ?>
 	<html>
-
+	<?php include('header.html'); ?>
 	<body>
 		<header>
 			<?php
@@ -35,26 +31,25 @@ if ($_SESSION == False) {
 						</div>
 					</li>
 				</ul>
-				<script>
-					disabled_map.set("nothing", true);
-				</script>
 				<?php
 			} else {
 				foreach ($resultat as $article) { ?>
 					<div id="article<?php echo ($article['idArticle']) ?>" class="card" style="margin-bottom: 5px;">
 						<div class="card-header">
-							<h5 class="card-title"><?php echo ($article['nom']) ?></h5>
+							<h5 class="card-title"><a href="article.php?idart=<?php echo($article['idArticle']);?>"><?php echo ($article['nom']) ?></a></h5>
 						</div>
 						<div class="card-body">
 							<div class="container-fluid">
 								<div class="row">
 									<div class="col-5 col-md-3">
-										<img src="<?php echo ($article['image']) ?>" class="img-fluid">
+										<a href="article.php?idart=<?php echo($article['idArticle']);?>">
+											<img src="<?php echo ($article['image']) ?>" class="img-fluid">
+										</a>
 									</div>
 									<div class="col-7 col-md-6">
 										<div class="row">
 											<div class="col-12 col-ld-4">
-												<form id="idart_delete<?php echo ($article['idArticle']) ?>" class="deleteForm" method="POST" action="#">
+												<form id="delete<?php echo ($article['idArticle']) ?>" class="deleteForm" method="POST" action="#">
 													<input id="idart_delete<?php echo ($article['idArticle']) ?>" type="text" hidden="True" name="idart" value=<?php echo ($article['idArticle']); ?>>
 													<button class="btn btn-outline-secondary btn-sm" type="submit">supprimer</button>
 												</form>
@@ -90,23 +85,17 @@ if ($_SESSION == False) {
 			$(".deleteForm").submit(function(e) {
 				var idForm = e.target.id;
 				e.preventDefault();
-				var idArticle = document.getElementById('idart' + idForm).value;
-				var idClient = document.getElementById('iC' + idForm).value;
+				var idArticle = document.getElementById('idart_' + idForm).value;
 				$.ajax({
 					type: "POST",
 					url: 'ajax/supprimerSouhait.php',
 					data: {
-						idC: idClient,
 						idart: idArticle,
 					},
 					dataType: "json",
 					success: function(data) {
 						article = document.getElementById("article" + idArticle);
 						article.remove();
-						if (disabled_map.get("article" + idArticle) === true) {
-							disabled_map.set("article" + idArticle, false);
-							disabled_map.forEach(disable_verify);
-						}
 					},
 					error: function() {
 						console.log("ERREUR");
