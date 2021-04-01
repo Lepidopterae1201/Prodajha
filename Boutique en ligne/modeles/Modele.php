@@ -5,8 +5,6 @@ abstract class Modele
 
     private static function getBdd()
     {
-        $en_ligne = false;
-        
         if (self::$bdd === NULL)
         {
             try{
