@@ -14,34 +14,31 @@ include('navbarHaut.php');
     </div>
  
     <div class='form-c-wrapper'>
-          <?php
-           if (isset($_GET['ERREUR'])){
-          ?>
-             <div class="alert alert-danger" role="alert">
-               Veuillez compléter tous les champs !
-             </div>
-             <?php
-               }
-           
-           if (isset($_GET['VALID'])){
-          ?>
-             <div class="alert alert-success" role="alert">
-              <i class="far fa-paper-plane"></i>
-             </div>
-             <?php
-               }
-             ?>
+      <?php
+        if (isset($_GET['ERREUR'])){
+      ?>
+          <div class="alert alert-danger" role="alert">
+            Veuillez compléter tous les champs !
+          </div>
+      <?php
+        } 
+        if (isset($_GET['VALID'])){
+      ?>
+          <div class="alert alert-success" role="alert">
+            Message envoyé avec succès !
+          </div>
+      <?php
+        }
+      ?>
     <form  method='POST' action='./traitements/envoi_formulaire.php'>
     <div class="form-group">
-           <input type="text" class="form-control" placeholder="Sujet" name="sujet">
-          </div>
-          <div class="form-group">
-           <textarea class="form-control"   placeholder="Message" rows="4" name="message"></textarea>
-          </div>
-          <div>
-          <button type="submit" >Envoyer</button>
-          </div>
-        </form>
+        <input type="text" class="form-control" placeholder="Sujet" name="sujet">
+      </div>
+      <div class="form-group">
+        <textarea class="form-control"   placeholder="Message" rows="4" name="message"></textarea>
+      </div>
+        <button type="submit" >Envoyer</button>
+      </form>
     </div>
   </div>
 </div><!-- // End #container -->

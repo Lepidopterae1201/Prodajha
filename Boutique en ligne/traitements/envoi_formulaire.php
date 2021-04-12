@@ -3,7 +3,7 @@ session_start();
 require_once('../modeles/clients.php');
 $clients = new clients();
 $idcli = $_SESSION['idClient'];
-if(isset($_POST['message']) && !empty($_POST['message'])){   
+if(isset($_POST['message']) && !empty($_POST['message']) && isset($_POST['sujet']) && !empty($_POST['sujet'])){   
   $message = $_POST['message'];
   $sujet = $_POST['sujet'];
   $clients->sendMessage($idcli,$sujet,$message);
