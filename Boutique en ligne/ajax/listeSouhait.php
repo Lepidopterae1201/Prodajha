@@ -1,9 +1,10 @@
 <?php
+session_start();
 require_once('../modeles/ListeSouhait.php');
 $Liste = new ListeSouhait();
 
 if(isset($_POST['idart']) && !empty($_POST['idart'])){
-    $idC=$_POST['idC'];
+    $idC=$_SESSION['idClient'];
     $idart=$_POST['idart'];
     $souhait = $Liste->articleInListeSouhait($idC, $idart);
     if($souhait){

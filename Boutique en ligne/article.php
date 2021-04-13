@@ -27,7 +27,6 @@ if ($_SESSION) {
   $idClient = False;
 };
 $Liste = new ListeSouhait();
-$souhait = $Liste->articleInListeSouhait($idClient, $_GET['idart']);
 
 
 include('header.html')
@@ -40,29 +39,30 @@ include('header.html')
     ?>
   </header>
 
-  <?php include('ajoutConfirm.php') ?>
+  <!--modalAjoutConfirm-->
+  <?php include('modalAjoutConfirm.php') ?>
 
   <div class="container">
     <div class="row">
       <!-- Article -->
-
       <div class="col-lg-9">
         <div class="card mt-4">
-          <img class="img-fluid" src="<?php echo $art['image']; ?>" alt="image de l'article" />
+          <img class="img-fluid" src="<?php echo $art['image']; ?>" alt="image de l'article" /> <!--Image de l'article-->
           <div class="card-body">
-            <h3 class="card-title"><?php echo $art['nom']; ?></h3>
-            <h4> <?php echo $art['prix']; ?> € </h4>
-            <h5>Vendeurs : <?php echo $magasin['nom']; ?></h5>
-            <p class="card-text"><?php echo $art['description']; ?></p>
+            <h3 class="card-title"><?php echo $art['nom']; ?></h3><!--Nom de l'article-->
+            <h4> <?php echo $art['prix']; ?> € </h4> <!--Prix de l'article-->
+            <h5>Vendeurs : <?php echo $magasin['nom']; ?></h5> <!--Magasin vendant l'article-->
+            <p class="card-text"><?php echo $art['description']; ?></p><!--Description de l'article-->
             <br>
             <?php
-            if ($_SESSION) {
-              if ($art['quantite'] <= 0) {
+            if ($_SESSION) { //si on est connecté
+              if ($art['quantite'] <= 0) { //S'il n'y a plus d'article disponible
             ?> <p style="color: red">L'article est épuisé</p> <?php
-              } elseif ($Panier->verifPanier($_GET['idart'], $idClient)) {
+              } elseif ($Panier->verifPanier($_GET['idart'], $idClient)) { //Si le client a déjà acheté l'article
                ?> <p style="color: green">Vous avez déjà acheté l'article</p> <?php
               } else { ?>
                 <div class="row g-3">
+                  <!--Bouton ajouter au panier-->
                   <div id="articleForm">
                     <div class="col-auto">
                       <input id="idArt" type="text" hidden="True" name="idart" value=<?php echo ($art['idArticle']); ?>>
@@ -70,7 +70,7 @@ include('header.html')
                       <button id="get_in_panier" class="btn btn-warning" type="submit">Ajouter au panier</button>
                     </div>
                   </div>
-
+                  <!--Bouton ajouter à la liste de souhait-->
                   <div id="articleSouhait">
                     <div class="col-auto">
                       <input id="idArt" type="text" hidden="True" name="idart" value=<?php echo ($art['idArticle']); ?>>
@@ -86,10 +86,11 @@ include('header.html')
                       </button>
                     </div>
                   </div>
+
                 </div>
               <?php
                }
-              }else {
+              }else { //si onnest pas connecté
               ?><a class="btn btn-secondary" href="connexion.php?page=Article&idart=<?php echo ($_GET['idart']) ?>">Se connecter</a><?php
               } ?>
           </div>
@@ -109,32 +110,31 @@ include('header.html')
               <div class="message" id="message">
                 <form method="POST" action="traitements\review.php">
                   <?php
-                  if (isset($_GET['message'])) {
-                    if ($_GET['message'] == 'erreur1') {
+                  if (isset($_GET['message'])) { //s'il y a un message d'erreur
+                    if ($_GET['message'] == 'erreur1') {  //Si la personne n'a pas remplis tous les champs
                       echo "<p style='color: red;'>Le message ou l'auteur est vide</p>";
                     }
                   }
                   ?>
                   <input name="idArticle" hidden="True" value=<?php echo ($art["idArticle"]) ?>></input>
                   <div class="row" style="margin: 10px;">
+                  <!--Saisie du message-->
                     <div class="col-md-6">
                       <textarea name="review" class="form-control" style="resize:none; overflow-y: auto;" rows="5" placeholder="Ecrire un message ..."></textarea>
                     </div>
+                    <!--Nom prénom de l'utilisateur-->
                     <div class="col-md-6">
                       <?php
-                      if ($_SESSION) {
                         echo '<input type="text" name="pseudo" class="form-control" readonly Value="' . $_SESSION['nom'] . ' ' . $_SESSION['prenom'] . '"/>';
-                      } else {
-                        echo '<input type="text" name="pseudo" class="form-control" placeholder="Nom d\'utilisateur..."/>';
-                      }
                       ?>
                       <br />
+                      <!--Envoyer le message-->
                       <button type="submit" class="btn btn-primary" style="width:100%">ENVOYER LE MESSAGE</button>
                     </div>
                   </div>
                 </form>
               </div>
-            <?php } else { ?>
+            <?php } else { //si on n'est pas connecté?>
               <h4>Veuillez vous connecter pour envoyer un commentaire</h4>
               <a class="btn btn-secondary" href="connexion.php?page=Article&idart=<?php echo ($_GET['idart']) ?>">Se connecter</a>
             <?php } ?>
@@ -145,7 +145,7 @@ include('header.html')
             <div class="conversation">
               <?php
               $i = 0;
-              foreach ($rev as $review) {
+              foreach ($rev as $review) { //on affiche tous les messages du plus récent au plus ancien
                 $i++;
                 $date = new DateTime($review['dateReview']);
                 $dateReview = $date->format('d/m/Y/ G:i'); ?>
@@ -161,8 +161,7 @@ include('header.html')
         </div>
       </div>
     </div>
-    <!--container-->
-  </div>
+  </div> <!--Fin container-->
 </body>
 
 </html>
@@ -226,9 +225,10 @@ include('header.html')
 <!--script ajax-->
 <script>
   $(document).ready(function() {
+    //Quand on ajoute un article au panier
     $("#get_in_panier").on('click', function() {
-      var idart = $('#idArt').val();
-      var qart = $('#qArt').val();
+      var idart = $('#idArt').val(); //id de l'article
+      var qart = $('#qArt').val(); //quantité d'article acheté
       $.ajax({
         type: "POST",
         url: 'ajax/ajouterInPanier.php',
@@ -238,8 +238,8 @@ include('header.html')
         },
         dataType: "json",
         success: function(data) {
-          $('#AjoutTrue').modal('show');
-          document.getElementById("articleForm").innerHTML = "<p style='color: green'>Vous avez déjà acheté l'article</p>";
+          $('#AjoutTrue').modal('show'); //On affiche le modal
+          document.getElementById("articleForm").innerHTML = "<p style='color: green'>Vous avez déjà acheté l'article</p>"; //On empêche d'acheter une seconde fois l'article
         },
         error: function(error) {
           console.log(error);
@@ -249,22 +249,23 @@ include('header.html')
   });
 
   $(document).ready(function() {
+    //Quand on clique sur le bouton liste de souhait
     $(".Souhait").on('click', function() {
-      var idart = $('#idArt').val();
-      var idclient = <?php echo $idClient ?>;
+      var idart = $('#idArt').val(); //id de l'article
       $.ajax({
         type: "POST",
         url: 'ajax/listeSouhait.php',
         data: {
           idart: idart,
-          idC: idclient,
         },
         dataType: "json",
         success: function(data) {
           document.querySelector("#souhait_fill").classList.add("d-none");
           document.querySelector("#souhait_empty").classList.add("d-none");
+          // si on a supprimé de la liste de souhait
           if (data.action == 'del') {
             document.querySelector("#souhait_empty.d-none").classList.remove("d-none");
+          // si on a ajouté à la liste de souhait
           } else if (data.action == 'add') {
             document.querySelector("#souhait_fill.d-none").classList.remove("d-none");
           }
@@ -276,9 +277,12 @@ include('header.html')
     })
   })
 
-  <?php if ($souhait == TRUE) { ?>
+  <?php 
+    $souhait = $Liste->articleInListeSouhait($idClient, $_GET['idart']);
+    if ($souhait == TRUE) { // si l'article est dans la liste de souhait
+  ?>
     document.getElementById("souhait_fill").classList.remove("d-none");
-  <?php } else { ?>
+  <?php } else { // si l'article n'est pas dans la liste de souhait?>
     document.getElementById("souhait_empty").classList.remove("d-none");
   <?php }
   ?>
