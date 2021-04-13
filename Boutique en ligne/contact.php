@@ -30,14 +30,14 @@ include('navbarHaut.php');
       <?php
         }
       ?>
-    <form  method='POST' action='./traitements/envoi_formulaire.php'>
-    <div class="form-group">
-        <input type="text" class="form-control" placeholder="Sujet" name="sujet">
-      </div>
-      <div class="form-group">
-        <textarea class="form-control"   placeholder="Message" rows="4" name="message"></textarea>
-      </div>
-        <button type="submit" >Envoyer</button>
+        <form  method='POST' action='./traitements/envoi_formulaire.php'>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Sujet" name="sujet">
+        </div>
+        <div class="form-group">
+          <textarea class="form-control"   placeholder="Message" rows="4" name="message"></textarea>
+        </div>
+        <button type="submit">Envoyer</button>
       </form>
     </div>
   </div>

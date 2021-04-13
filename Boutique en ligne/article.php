@@ -40,7 +40,7 @@ include('header.html')
     ?>
   </header>
 
-  <?php include('AjoutConfirm.php') ?>
+  <?php include('ajoutConfirm.php') ?>
 
   <div class="container">
     <div class="row">
@@ -238,6 +238,7 @@ include('header.html')
         },
         dataType: "json",
         success: function(data) {
+          $('#AjoutTrue').modal('show');
           document.getElementById("articleForm").innerHTML = "<p style='color: green'>Vous avez déjà acheté l'article</p>";
         },
         error: function(error) {

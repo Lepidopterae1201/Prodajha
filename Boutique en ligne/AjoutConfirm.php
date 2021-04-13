@@ -1,5 +1,5 @@
 <div class="modal fade" id="AjoutTrue" tabindex="-1" role="dialog" aria-labelledby="AjoutTrueLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">  
+  <div class="modal-dialog modal-dialog-centered" role="document">  
     <div class="modal-content">
       <div class="modal-header" style="background-color: rgb(40,40,40);">
         <h4 style="text-align: center; color: whitesmoke;">Article ajouter au panier !</h4>
