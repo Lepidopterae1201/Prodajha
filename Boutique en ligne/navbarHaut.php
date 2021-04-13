@@ -10,7 +10,7 @@ $resultatCat = $Categorie->recupererCategories();
 	</a>
 
 	<!--categories dropdown-->
-	<?php if ($afficher_categories == true){
+	<?php if ($afficher_searchbar == true){
 		?>
 		<div class="input-group" style="margin-left:30px; margin-right:30px;">
 		<!--Navigation par catégorie-->

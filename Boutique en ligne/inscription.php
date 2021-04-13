@@ -15,7 +15,7 @@ include('header.html');
                         </div>                      
                         <div class="row formulaireRow">
                             <div class="col-12" style="margin-bottom: 15px;">
-                                <?php if (isset($_GET['message'])){
+                                <?php if (isset($_GET['message'])){ //si on a un message d'erreur
                                     echo($Message->messageInscription($_GET['message']));
                                         }    ?>
                                 <input type="text" name="nom" class="form-control" placeholder="Nom" required autofocus />

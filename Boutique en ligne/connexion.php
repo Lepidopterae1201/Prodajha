@@ -15,11 +15,11 @@ include('header.html');
                         </div>
                         <div class="row formulaireRow">
                             <div class="col-10" style="margin-right:auto; margin-left:auto">
-                                <?php if (isset($_GET['message'])) { 
+                                <?php if (isset($_GET['message'])) { //si on a un message d'erreur ou de succès
                                     echo ($Message->messageConnexion($_GET['message']));
                                 } ?>
                                 <input type="text" name="mail" class="form-control" placeholder="Adresse Mail" style="text-align:center; margin-bottom:40px;" required autofocus/>
-                                <input type="password" name="password" class="form-control" placeholder="Mot de passe" style="text-align:center; margin-bottom:20px;" required autofocus/>
+                                <input type="password" name="password" class="form-control" placeholder="Mot de passe" style="text-align:center; margin-bottom:20px;" required/>
                             </div>
                         </div>
                         <?php if (isset($_GET['page']) && isset($_GET['idart'])) {

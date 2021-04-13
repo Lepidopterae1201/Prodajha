@@ -3,7 +3,7 @@
 
     class Message extends Modele{
 
-        function messageInscription(){
+        function messageInscription(){ //récupère le message d'erreur au moment de l'inscription en fonction de l'erreur passé en get
                 if ($_GET['message']=='erreur1') {
                     return "<p style='color: red;'>Les mots de passes ne correspondent pas</p>";
                 }elseif ($_GET['message']=='erreur2') {
@@ -15,7 +15,7 @@
                 }
             }
 
-            function messageConnexion(){
+            function messageConnexion(){ // récupère le message d'erreur ou de succes au moment de la connection en fonction de l'erreur passé en get
                 if ($_GET['message'] == 'erreur1') {
                     echo "<p style='color: red;'>L'utilisateur ou le mot de passe est incorrect</p>";
                 } elseif ($_GET['message'] == 'erreur2') {

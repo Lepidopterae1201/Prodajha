@@ -15,7 +15,7 @@ $Panier = new Panier();
 $Article = new Article();
 $art = $Article->afficherArticle($_GET['idart']);
 $magasin = $Article->recupVendeur($_GET['idart']);
-$afficher_categories = true;
+$afficher_searchbar = true;
 
 
 $Review =  new Review();
@@ -90,7 +90,7 @@ include('header.html')
                 </div>
               <?php
                }
-              }else { //si onnest pas connecté
+              }else { //si on n'est pas connecté
               ?><a class="btn btn-secondary" href="connexion.php?page=Article&idart=<?php echo ($_GET['idart']) ?>">Se connecter</a><?php
               } ?>
           </div>

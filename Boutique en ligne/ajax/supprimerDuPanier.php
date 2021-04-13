@@ -1,9 +1,10 @@
 <?php
+session_start();
 require_once('../modeles/Panier.php');
 $Panier = new Panier();
 
-if(isset($_POST['idA']) && !empty($_POST['idA']) && isset($_POST['idC']) && !empty($_POST['idC'])){
-	$idC=$_POST['idC'];
+if(isset($_POST['idA']) && !empty($_POST['idA'])){
+	$idC=$_SESSION['idClient'];
 	$idart=$_POST['idA'];
     $resultat = $Panier->suprPanier($idC, $idart);
     if (isset($resultat)) { 

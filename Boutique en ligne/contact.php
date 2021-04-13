@@ -1,6 +1,6 @@
 <?php
 session_start();
-$afficher_categories = false;
+$afficher_searchbar = false;
 
 include('header.html');
 include('navbarHaut.php');
@@ -15,14 +15,14 @@ include('navbarHaut.php');
  
     <div class='form-c-wrapper'>
       <?php
-        if (isset($_GET['ERREUR'])){
+        if (isset($_GET['ERREUR'])){ //si on n'a pas rempli tous les champs
       ?>
           <div class="alert alert-danger" role="alert">
             Veuillez compléter tous les champs !
           </div>
       <?php
         } 
-        if (isset($_GET['VALID'])){
+        if (isset($_GET['VALID'])){ //si le message a été envoyé
       ?>
           <div class="alert alert-success" role="alert">
             Message envoyé avec succès !
@@ -32,16 +32,16 @@ include('navbarHaut.php');
       ?>
         <form  method='POST' action='./traitements/envoi_formulaire.php'>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Sujet" name="sujet">
+          <input type="text" class="form-control" placeholder="Sujet" name="sujet"> <!--Sujet du message-->
         </div>
         <div class="form-group">
-          <textarea class="form-control"   placeholder="Message" rows="4" name="message"></textarea>
+          <textarea class="form-control"   placeholder="Message" rows="4" name="message"></textarea> <!--Message-->
         </div>
-        <button type="submit">Envoyer</button>
+        <button type="submit">Envoyer</button> <!--Envoyer le message-->
       </form>
     </div>
   </div>
-</div><!-- // End #container -->
+</div><!-- // End .container -->
 
 
 <!--librairie jquery-->
@@ -50,13 +50,3 @@ include('navbarHaut.php');
 <!--js bootstrap-->
 <script src="static/bootstrap/js/bootstrap.min.js"></script>
 
-
- 
-<script>
-  const divAlt = document.querySelector('.alert.alert-success')
-  const icon = document.querySelector('.icon-c-wrapper')
-  if (divAlt){
-    icon.innerHTML = '<i class="fas fa-envelope"></i>'
-  }
-
-</script>
