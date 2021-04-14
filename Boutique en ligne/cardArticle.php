@@ -23,12 +23,11 @@ if (isset($_GET["idcat"])) { //si on a recherché une catégorie, on n'affiche q
   $nbArticle = (int) $Article->compterArticle($_GET["idcat"])["nb_articles"];
 }elseif(isset($_GET["search"])){ //si on a fait une recherche
   $listeArticles = $Article->recupererParSearch(urldecode($_GET["search"]), $premier, $parPage);
-  $nbArticle = (int) $Article->compterArticle($_GET["search"])["nb_articles"];
+  $nbArticle = (int) $Article->compterArticle(NULL, urldecode($_GET["search"]))["nb_articles"];
 }
 else{ // si pas de recherche
   $listeArticles = $Article->recupererArticles($premier, $parPage);
   $nbArticle = (int) $Article->compterArticle()["nb_articles"];
-
 }
 
 // On calcule le nombre de pages total

@@ -87,12 +87,11 @@ $resultatCat = $Categorie->recupererCategories();
 <script>
 	//fonction lancement de recherche
 	function go_search(search){
-		console.log(search);
 		window.location.href = "index.php?search=" + search;
 	}
 
 	$(document).ready(function(){
-		$('#search_bar').on('input', function(){
+		$('#search_bar').on('input', function(){ //quand on écrit dans la barre de recherche
 			if($('#search_bar').val() != ""){
 				search = $('#search_bar').val();
 				var x = 0;
@@ -106,12 +105,12 @@ $resultatCat = $Categorie->recupererCategories();
 					dataType:"json",
 					success:function(data){
 						document.getElementById('search_data').innerHTML = "";
-						data.forEach((article)=>{
-							document.getElementById('search_data').innerHTML += "<option id='recherche"+ x +"' class='search-value' value='"+ article.nom +"' onclick='go_search(" + article.nom + ")'></option>";
+						data.forEach((article)=>{ //pour chaque élément de recherche, on l'ajoute au recherches trouvées
+							document.getElementById('search_data').innerHTML += "<option id=\"recherche"+ x +"\" class=\"search-value\" value=\""+ article.nom +"\" onclick=\"go_search(" + article.nom + ")\"></option>";
 						})
-						if(document.querySelectorAll('.search-value').length == 1){
-							if($('.search-value').val() === search){
-								go_search(search);
+						if(document.querySelectorAll('.search-value').length == 1){ //si le nombre d'article recherché affiché est égale à 1
+							if($('.search-value').val() === search){ //si la recherche est exactement la même que le nom de l'article recherché
+								go_search(search); //on lance la recherhce
 							}
 						}
 					},
@@ -122,13 +121,9 @@ $resultatCat = $Categorie->recupererCategories();
 			}
 		})
 
-		$("#search_button").on('click', function(){
+		$("#search_button").on('click', function(){ //quand on clique sur le bouton de lancement de recherche, on lance la recherche
 			search = $('#search_bar').val()
 			go_search(search);
-		})
-
-		$("#search_data").on('change', function(e){
-			console.log('hello');
 		})
 	})
 </script>

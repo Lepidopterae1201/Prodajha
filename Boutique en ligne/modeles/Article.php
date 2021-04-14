@@ -30,15 +30,15 @@ class Article extends Modele
 	}
 
 	function compterArticle($idcat = NULL, $search = NULL){ //compte le nombre d'article dans la base de donnée
-		if ($idcat === NULL){ // si on  recherhce selon une catégorie
-			$requete = "SELECT COUNT(idArticle) AS nb_articles FROM article;";
-			return $this->execRequete($requete)->fetch();
+		if ($idcat !== NULL){ // si on  recherhce selon une catégorie
+			$requete = "SELECT COUNT(idArticle) AS nb_articles FROM article WHERE IdCategorie = ?;";
+			return $this->execRequete($requete, [$idcat])->fetch();
 		}elseif ($search !== NULL){ // si l'on fait une recherche par la search bar
 			$requete = "SELECT COUNT(idArticle) AS nb_articles FROM article WHERE nom LIKE ?;";
 			return $this->execRequete($requete, ['%'.$search.'%'])->fetch();
 		}else{ // si pas de recherche
-			$requete = "SELECT COUNT(idArticle) AS nb_articles FROM article WHERE IdCategorie = ?;";
-			return $this->execRequete($requete, [$idcat])->fetch();
+			$requete = "SELECT COUNT(idArticle) AS nb_articles FROM article;";
+			return $this->execRequete($requete)->fetch();
 		}
 	}
 
