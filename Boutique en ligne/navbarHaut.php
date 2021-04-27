@@ -41,7 +41,7 @@ $resultatCat = $Categorie->recupererCategories();
 		<?php
 		} else {
 			?>
-			<div class="align-item-start">
+			<div class="align-item-start btn-group order-md-last">
 				<?php
 			if (isset($_GET['idart'])) {
 				?><a class="btn btn-secondary ml-auto" href="connexion.php?page=Article&idart=<?php echo($_GET['idart'])?>">Se connecter</a><?php
