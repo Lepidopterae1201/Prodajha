@@ -87,7 +87,11 @@ if ($_SESSION == False) { //si on est pas connecté
   		}
 	</style>
 
+	<!--librairie jquery-->
 	<script src="static/jquery-3.5.1.min.js"></script>
+
+	<!--js bootstrap-->
+	<script src="static/bootstrap/js/bootstrap.min.js"></script>
 
 	<script>
 		$(document).ready(function() {
