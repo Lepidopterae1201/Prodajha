@@ -11,17 +11,19 @@ $resultatCat = $Categorie->recupererCategories();
 		<img src="logo_Prodajha.png" style="height: 50px; width:auto; margin-left:0" class="float-left" alt="Prodajha" >
 	</a>
 
-	<!--collapse button-->
-	<button class="navbar-toggler ml-auto col" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation">
-	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-		<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-	</svg>
-  	</button>
+	<?php if ($afficher_searchbar == true){?>
+		<!--collapse button-->
+		<button class="navbar-toggler ml-auto col" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation">
+		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+			<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+		</svg>
+		</button>
+	<?php } ?>
 
 	<!--panier et user-->
 	<?php
 	if($_SESSION) { ?>
-		<div class="btn-group ml-auto mr-2 col-2 order-md-last">
+		<div class="btn-group ml-auto mr-2 col-4 col-md-2 order-md-last">
 			<!--panier button-->
 			<a class="btn btn-warning" href="panier.php">
 				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-basket" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -50,7 +52,7 @@ $resultatCat = $Categorie->recupererCategories();
 		</div>
 	<?php
 	} else { ?>
-	<div class="align-item-center ml-auto mr-2">
+	<div class="ml-auto mr-2 col-3 order-md-last">
 		<?php
 	if (isset($_GET['idart'])) {
 		?><a class="btn btn-secondary" href="connexion.php?page=Article&idart=<?php echo($_GET['idart'])?>">Se connecter</a><?php
@@ -60,10 +62,9 @@ $resultatCat = $Categorie->recupererCategories();
 	?></div>
 <?php 
 	} ?>
-
-	<div class="collapse navbar-collapse" id="navbar">
+	<?php if ($afficher_searchbar == true){?>
+		<div class="collapse navbar-collapse" id="navbar">
 		<!--Recherche-->
-		<?php if ($afficher_searchbar == true){?>
 			<div class="input-group input-group-sm">
 			<!--Navigation par catégorie-->
 				<div class="input-group-prepend">
@@ -93,8 +94,8 @@ $resultatCat = $Categorie->recupererCategories();
 					</button>
 				</div>
 			</div>
+		</div>
 	<?php } ?>
-	</div>
 </nav>
 
 <!--librairie jquery-->
