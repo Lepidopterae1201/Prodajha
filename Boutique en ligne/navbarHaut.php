@@ -85,6 +85,8 @@ $resultatCat = $Categorie->recupererCategories();
 			</div>
 		</div>
 		<?php
+	}else{
+		?><div class="col"></div><?php
 	}
 		?>
 </nav>
